@@ -132,7 +132,7 @@
   .float video { width: 100%; height: 100%; object-fit: cover; }
   .float img, .float video { border-radius: 3px; }
   .float img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s, filter .4s; filter: saturate(.85); animation: bob var(--t, 7s) ease-in-out infinite alternate; }
-  .float:hover img { transform: scale(1.06); filter: saturate(1.1); }
+  .float:hover img { transform: scale(1.03); filter: saturate(1.1); }
   .float .tag { position: absolute; left: 4px; top: calc(100% + 6px); font: 700 19px/1 "Caveat", cursive; color: var(--fg); white-space: nowrap; transform: rotate(-3deg); text-shadow: 0 1px 8px var(--bg); }
   @keyframes bob { from { transform: translateY(-4px) scale(1.02); } to { transform: translateY(4px) scale(1.02); } }
 
@@ -350,10 +350,10 @@
   <video class="bgvid" src="assets/bg.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
   <div class="bgshade"></div>
   <!-- floating moments: drift gently and follow the cursor -->
-  <div class="float" style="--w:140px;--ar:3/4;--r:-10deg;left:4%;top:22%;--t:6s" data-depth="18"><img src="assets/stjude-ducks.jpg" alt="Ibrahim at St. Jude by patients' artwork"><span class="tag">st. jude, memphis</span></div>
-  <div class="float" style="--w:110px;--ar:9/16;--r:6deg;left:15%;top:46%" data-depth="36"><video src="assets/arrival.mp4" autoplay muted loop playsinline aria-label="Walking into St. Jude"></video><span class="tag">day one ↗</span></div>
-  <div class="float" style="--w:165px;--ar:4/3;--r:-6deg;left:3%;bottom:12%;--t:8s" data-depth="26"><img src="assets/ul-solutions.jpg" alt="UL Solutions intern group"><span class="tag">ul solutions, CA</span></div>
-  <div class="float" style="--w:118px;--ar:3/4;--r:9deg;right:21%;top:31%;--t:7s" data-depth="30"><img src="assets/shipt-hq.jpg" alt="Ibrahim at Shipt HQ"><span class="tag">shipt hq!</span></div>
+  <div class="float" style="--w:105px;--ar:3/4;--r:-10deg;left:4%;top:22%;--t:6s" data-depth="18"><img src="assets/stjude-ducks.jpg" alt="Ibrahim at St. Jude by patients' artwork"><span class="tag">st. jude, memphis</span></div>
+  <div class="float" style="--w:82px;--ar:9/16;--r:6deg;left:15%;top:46%" data-depth="36"><video src="assets/arrival.mp4" autoplay muted loop playsinline aria-label="Walking into St. Jude"></video><span class="tag">day one ↗</span></div>
+  <div class="float" style="--w:124px;--ar:4/3;--r:-6deg;left:3%;bottom:12%;--t:8s" data-depth="26"><img src="assets/ul-solutions.jpg" alt="UL Solutions intern group"><span class="tag">ul solutions, CA</span></div>
+  <div class="float" style="--w:88px;--ar:3/4;--r:9deg;right:21%;top:31%;--t:7s" data-depth="30"><img src="assets/shipt-hq.jpg" alt="Ibrahim at Shipt HQ"><span class="tag">shipt hq!</span></div>
 
   <div class="ed-frame" id="edframe"><span class="rec" id="rec">REC · 1080×1920</span><div class="cap" id="pcap"></div></div>
   <div class="ed-layer outer" aria-hidden="true"><div class="ed-mark">Ibrahim Bello</div><div class="ed-head"></div></div>
@@ -453,7 +453,7 @@
   <div class="gallery">
     <div class="frame reveal" id="gframe"><div class="bar" id="gbar"></div></div>
     <div class="gtext reveal">
-      <div class="count" id="gcount">01 / 12</div>
+      <div class="count" id="gcount">01 / 11</div>
       <h3 id="gtitle"></h3>
       <p id="gdesc"></p>
       <div class="thumbs" id="gthumbs"></div>
@@ -525,7 +525,6 @@ const MOMENTS = [
   ["assets/stjude-ods.jpg", "Meeting Kerry Page", "Got a chance to meet Kerry Page, Senior VP of Data Science, outside the St. Jude Office of Data Science in Memphis."],
   ["assets/hack-selfie.jpg", "Best Overall GPT", "Celebrating with the crew right after our team won Best Overall GPT at the SecureCell hackathon."],
   ["assets/shipt-jewel-taylor.jpg", "Meeting Jewel Taylor", "Got a chance to meet Jewel Taylor, Director of People Business Partners at Shipt, during the Black Men in Tech Emerging Talent Summit at Shipt HQ."],
-  ["assets/shipt-megan-hardin.jpg", "Meeting Megan Hardin", "Got a chance to meet Megan Hardin, a recruiter at Shipt, during the Emerging Talent Summit at Shipt HQ."],
   ["assets/shipt-summit.jpg", "A day in the life at Shipt", "Spent the day at Shipt HQ with Black Men in Tech's Tech Connect Emerging Talent Summit, seeing how the team builds the product."],
   ["assets/spectrum-group.jpg", "The Spectrum Sizzle cohort", "Got a chance to meet students from across the country at NSF Spectrum Sizzle, all into wireless, RF and communications."],
   ["assets/ul-solutions.jpg", "UL Solutions", "The lab crew at UL Solutions in California, where I interned as a wireless lab testing intern."],
