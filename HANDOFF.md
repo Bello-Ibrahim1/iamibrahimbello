@@ -39,6 +39,11 @@ Facts confirmed by Ibrahim: SecureCell hackathon = his team won Best Overall GPT
 placed 2nd at Tracer Fire 13 (Sept 2025) and 3rd at Tracer Fire 14; PhishGuard 3rd at AAMU STEM Day 2026;
 NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect Emerging Talent Summit 2025.
 
+## Resume
+`assets/Bello_Ibrahim_Resume.pdf` is printed from `resume/resume.html` (one page, Letter). Rebuild:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer --print-to-pdf=assets/Bello_Ibrahim_Resume.pdf "file://$PWD/resume/resume.html"
+Check it is still 1 page. Linked from the nav, hero links, menu and Contact. Copy on his Desktop: Bello_Ibrahim_Resume_Updated.pdf.
+
 ## His preferences for this site
 - Must look creative and hand-made, **not "AI-made"**. Combine new ideas with what exists; don't replace
   sections wholesale without asking.
