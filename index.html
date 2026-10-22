@@ -8,9 +8,15 @@
 <meta property="og:title" content="Ibrahim Bello · Science × Story">
 <meta property="og:description" content="Films, data and things I build.">
 <meta property="og:image" content="assets/banner.jpg">
+<script>
+  // pick the theme before anything paints: the visitor's own choice if they made one, otherwise their system setting
+  (function () { var t; try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    document.documentElement.dataset.theme = t; })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter+Tight:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Caveat:wght@500;700&family=Inter+Tight:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #111111; --bg2: #1a1a1a; --card: #1e1e1e; --line: rgba(255,255,255,.09);
@@ -18,9 +24,19 @@
     --mono: "JetBrains Mono", ui-monospace, Menlo, monospace; --sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   }
   :root[data-theme="light"] {
-    --bg: #efede7; --bg2: #e6e3db; --card: #f8f7f3; --line: rgba(0,0,0,.1);
-    --fg: #151515; --muted: #6c6a64; --shadow: 0 30px 70px rgba(40,30,10,.18);
+    --bg: #f2f0eb; --bg2: #fbfaf7; --card: #fbfaf7; --line: rgba(0,0,0,.09);
+    --fg: #151515; --muted: #5f5d57; --accent2: #12827d; --shadow: 0 30px 70px rgba(40,30,10,.16);
   }
+  /* light mode: paper cards with a little depth instead of grey-on-grey boxes */
+  :root[data-theme="light"] .place, :root[data-theme="light"] .proj, :root[data-theme="light"] .chip,
+  :root[data-theme="light"] .iconbtn { box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 6px 18px rgba(40,30,10,.06); }
+  :root[data-theme="light"] .place.lit { border-color: rgba(18,130,125,.45); }
+  :root[data-theme="light"] .holo { border-radius: 10px; box-shadow: 0 24px 60px rgba(10,30,40,.28); }
+
+  /* status bar: a soft glow sweeps across the chips from left to right, on a loop */
+  :root { --sweep: rgba(94,242,255,.38); }
+  :root[data-theme="light"] { --sweep: rgba(18,130,125,.30); }
+  @keyframes chipglow { from { background-position: 100vw 0; } to { background-position: -200vw 0; } }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); overflow-x: hidden;
@@ -110,11 +126,21 @@
   }
 
   /* ---------- status bar ---------- */
-  .hud { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; gap: 6px; padding: 8px 16px;
-         overflow-x: auto; scrollbar-width: none; font: 500 10.5px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
-  .hud::-webkit-scrollbar { display: none; }
+  .hud { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; padding: 8px 0;
+         overflow: hidden; font: 700 16px/.75 "Amatic SC", var(--mono); letter-spacing: .08em; text-transform: uppercase;   /* tall, thin flight-readout lettering */
+         -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+                 mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+  /* the chips flow right to left like a departures board; the set is cloned once so the loop is seamless */
+  .hud-track { display: flex; width: max-content; animation: ticker 38s linear infinite; }
+  .hud-set { display: flex; gap: 6px; padding-right: 6px; }
+  .hud:hover .hud-track { animation-play-state: paused; }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .hud-track { animation: none; } }
   .chip { flex: none; padding: 5px 8px; border-radius: 6px; background: var(--bg2); color: var(--muted); border: 1px solid var(--line); white-space: nowrap; }
   .chip b { color: var(--fg); font-weight: 500; }
+  .chip { background-image: linear-gradient(100deg, transparent 0 42%, var(--sweep) 50%, transparent 58% 100%);
+          background-size: 300vw 100%; background-repeat: no-repeat; background-attachment: fixed; animation: chipglow 4.5s linear infinite; }
+  @media (prefers-reduced-motion: reduce) { .chip { animation: none; background-image: none; } }
   .chip .live { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #34d27b; margin-right: 6px;
                 box-shadow: 0 0 0 0 rgba(52,210,123,.6); animation: pulse 2s infinite; vertical-align: 1px; }
   @keyframes pulse { 70% { box-shadow: 0 0 0 7px rgba(52,210,123,0); } 100% { box-shadow: 0 0 0 0 rgba(52,210,123,0); } }
@@ -314,6 +340,24 @@
   .modal video { max-height: 86vh; max-width: 100%; border-radius: 14px; }
   .modal .x { position: absolute; top: 20px; right: 20px; }
 
+  /* recap nudge: a paper card that slides in after a few seconds of browsing */
+  .nudge { position: fixed; left: 22px; bottom: 22px; z-index: 80; width: 250px; padding: 14px 14px 14px; background: #f8f7f3; color: #151515;
+           border-radius: 6px; box-shadow: 0 24px 60px rgba(0,0,0,.35); rotate: -1.5deg; opacity: 0; translate: 0 30px; pointer-events: none;
+           transition: opacity .5s ease, translate .6s cubic-bezier(.2,.8,.2,1); }
+  .nudge.on { opacity: 1; translate: 0 0; pointer-events: auto; }
+  .nudge .nx { position: absolute; top: 4px; right: 6px; border: 0; background: none; font-size: 22px; line-height: 1; color: #6c6a64; cursor: pointer; padding: 4px; }
+  .nudge .nnote { display: block; font-size: 22px; line-height: 1; margin: 0 24px 0 2px; }
+  .nudge .spiral { display: block; width: 74px; height: 56px; margin: -2px 0 -6px 92px; fill: none; stroke: #151515; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .nudge.on .spiral path { stroke-dasharray: 260; stroke-dashoffset: 260; animation: draw 1.4s .35s ease forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .nudge .nrow { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .nudge .nrow img { width: 46px; height: 60px; object-fit: cover; border-radius: 3px; }
+  .nudge .nrow b { display: block; font: 700 14px/1.2 "Inter Tight", var(--sans); }
+  .nudge .nrow small { font: 500 11px/1.6 var(--mono); color: #6c6a64; }
+  .nudge .btn { width: 100%; justify-content: center; background: #111; color: #f3f1ec; border: 0; cursor: pointer; }
+  @media (max-width: 520px) { .nudge { left: 12px; bottom: 12px; width: min(250px, calc(100vw - 24px)); } }
+  @media (prefers-reduced-motion: reduce) { .nudge.on .spiral path { animation: none; stroke-dashoffset: 0; } }
+
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s, transform .8s cubic-bezier(.2,.7,.2,1); }
   .reveal.in { opacity: 1; transform: none; }
 
@@ -347,14 +391,14 @@
 </head>
 <body>
 
-<div class="hud" aria-hidden="true">
+<div class="hud" aria-hidden="true"><div class="hud-track" id="hudtrack"><div class="hud-set">
   <span class="chip"><span class="live"></span><b>ONLINE</b></span>
-  <span class="chip">LOC::<b>ALABAMA, USA</b></span>
-  <span class="chip">LOCAL::<b id="clock">--:--</b></span>
+  <span class="chip">LOC::<b>34°47′00″N 86°34′19″W</b></span>
+  <span class="chip">LOCAL::<b class="clock">--:--</b></span>
   <span class="chip">MAJOR::<b>COMP SCI × FINANCE</b></span>
   <span class="chip">SCHOOL::<b>ALABAMA A&amp;M</b></span>
   <span class="chip">LATEST::<b>ST. JUDE BIOHACKATHON</b></span>
-</div>
+</div></div></div>
 
 <nav class="nav">
   <a class="mono-logo" href="#top" aria-label="Ibrahim Bello, home"><span>I</span><span>B</span></a>
@@ -461,7 +505,7 @@
   <p class="reveal" style="color:var(--muted);font-size:18px;margin:-12px 0 32px">Every stop, a new connection.</p>
   <div class="holo-wrap">
     <div class="holo reveal" id="holo">
-      <svg id="holosvg" viewBox="0 0 960 600" role="img" aria-label="Animated map: a flight from Lagos, Nigeria to Atlanta, then the US states Ibrahim has visited"></svg>
+      <svg id="holosvg" viewBox="0 0 960 600" role="img" aria-label="Animated map: a flight from Lagos, Nigeria to Washington, D.C., on to North Carolina, Atlanta and Alabama, then the US states Ibrahim has visited"></svg>
       <div class="sweep"></div><div class="scan"></div>
       <div class="readout" id="readout">Initializing…</div>
       <button class="iconbtn replay" id="replay" aria-label="Replay the flight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
@@ -472,6 +516,7 @@
 
 <section class="block" id="moments">
   <div class="label">Moments</div>
+  <h2 class="big reveal">See the world<br>through my <em>lens</em>.</h2>
   <div class="gallery">
     <div class="frame reveal" id="gframe"><div class="bar" id="gbar"></div></div>
     <div class="gtext reveal">
@@ -498,7 +543,6 @@
 <footer>
   <span>© <span id="yr">2026</span> Ibrahim Bello</span>
   <span>iamibrahimbello.xyz</span>
-  <span>Built by hand · no templates</span>
 </footer>
 
 <div class="peek" id="peek"><img alt=""></div>
@@ -506,6 +550,13 @@
   <button class="iconbtn x" id="mclose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <video id="mvideo" controls playsinline></video>
 </div>
+<aside class="nudge" id="nudge" aria-label="Latest recap" aria-hidden="true">
+  <button class="nx" id="nudgeClose" aria-label="Dismiss">×</button>
+  <span class="hand nnote">psst… my latest recap</span>
+  <svg class="spiral" viewBox="0 0 120 92" aria-hidden="true"><path d="M8 14 C 40 2, 78 8, 70 30 C 64 46, 38 44, 44 28 C 50 14, 82 18, 90 42 C 95 58, 92 70, 86 82"/><path d="M77 74 L86 84 L94 73"/></svg>
+  <div class="nrow"><img src="assets/title.jpg" alt=""><div><b>St. Jude KIDS BioHackathon</b><small>Full recap · 2:31</small></div></div>
+  <button class="btn" id="nudgeGo">▶ Watch it</button>
+</aside>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
@@ -580,7 +631,7 @@ function scramble(el, html, text) {
    crosses the frame (light mode: black to white, like Zara; dark mode: solid
    to outline). Slide 1 is the intro, then every project in PROJECTS.
 ------------------------------------------------------------------- */
-const SLIDES = [{ head: "I build with data and tell stories with a camera.", tags: ["Comp Sci × Finance", "Alabama A&M", "Lagos → USA"],
+const SLIDES = [{ head: "I code. I film. I build.", tags: ["Comp Sci × Finance", "Alabama A&M", "Lagos → USA"],
                   desc: "Student, builder and storyteller. Use the arrows to flip through what I've been up to.",
                   video: "assets/teaser.mp4", cta: "See my projects", link: "#projects" }, ...PROJECTS];
 const edFrame = $("#edframe"), edLight = $("#edlight"), edOuter = document.querySelector(".ed-layer.outer"), edHeads = document.querySelectorAll(".ed-head"), dots = $("#dots");
@@ -659,6 +710,19 @@ $("#pcta").addEventListener("click", e => { const f = e.currentTarget.dataset.fi
 function closeFilm() { modal.classList.remove("on"); mv.pause(); }
 $("#mclose").onclick = closeFilm; modal.addEventListener("click", e => { if (e.target === modal) closeFilm(); });
 
+/* recap nudge: once someone starts browsing, wait a few seconds, then point them at the full recap (once per visit) */
+const nudge = $("#nudge");
+let nudged = false; try { nudged = !!sessionStorage.getItem("nudged"); } catch (e) {}
+function hideNudge() { nudge.classList.remove("on"); nudge.setAttribute("aria-hidden", "true"); nudged = true; try { sessionStorage.setItem("nudged", "1"); } catch (e) {} }
+function armNudge() {
+  if (nudged || armNudge.t) return;
+  armNudge.t = setTimeout(() => { if (!nudged && !modal.classList.contains("on")) { nudge.classList.add("on"); nudge.setAttribute("aria-hidden", "false"); } }, 6000);
+}
+["scroll", "pointermove", "keydown", "touchstart"].forEach(ev => addEventListener(ev, armNudge, { once: true, passive: true }));
+$("#nudgeClose").onclick = hideNudge;
+$("#nudgeGo").onclick = () => { hideNudge(); mv.src = "assets/recap.mp4"; modal.classList.add("on"); mv.play().catch(() => {}); };
+$("#pcta").addEventListener("click", e => { if (e.currentTarget.dataset.film) hideNudge(); });
+
 /* cursor parallax: floating cards drift with depth, the hero media tilts */
 const floats = [...document.querySelectorAll(".float")];
 if (!reduce) addEventListener("pointermove", e => {
@@ -698,17 +762,19 @@ function restartMoments() { clearInterval(gTimer); if (!reduce) gTimer = setInte
 showMoment(0); restartMoments();
 
 /* ------------------------------------------------------------------
-   Holographic map: the globe spins from Lagos to Atlanta under a flying
-   plane, then zooms into the US and lights each state visited.
+   Holographic map: the globe spins from Lagos to Washington, D.C. under a
+   flying plane, then zooms into the US, where the plane hops along the trip
+   (trip: true, in order) and every other state visited lights up.
    Edit PLACES to add states (FIPS id, label, optional city [lon, lat]).
 ------------------------------------------------------------------- */
-const LAGOS = [3.3792, 6.5244], ATL = [-84.388, 33.749];
+const LAGOS = [3.3792, 6.5244], DC = [-77.456, 38.944], ATL = [-84.388, 33.749];
 const PLACES = [
-  { id: "13", state: "Georgia", note: "Atlanta: touchdown from Lagos", ll: ATL, lbl: [10, 18, "start"] },
-  { id: "01", state: "Alabama", note: "Alabama A&M University: home base", ll: [-86.586, 34.73], lbl: [-4, 30, "middle"] },
+  { id: "11", state: "Washington, D.C.", note: "Touchdown from Lagos", ll: DC, lbl: [10, -8, "start"], trip: true },
+  { id: "37", state: "North Carolina", note: "Next stop", lbl: [12, -6, "start"], trip: true },
+  { id: "13", state: "Georgia", note: "Atlanta", ll: ATL, lbl: [10, 18, "start"], trip: true },
+  { id: "01", state: "Alabama", note: "Alabama A&M University: home base", ll: [-86.586, 34.73], lbl: [-4, 30, "middle"], trip: true },
   { id: "47", state: "Tennessee", note: "Memphis: St. Jude BioHackathon", ll: [-90.049, 35.149], lbl: [-8, -10, "end"] },
   { id: "28", state: "Mississippi", note: "Mississippi", lbl: [0, 24, "middle"] },
-  { id: "37", state: "North Carolina", note: "North Carolina", lbl: [12, -6, "start"] },
   { id: "48", state: "Texas", note: "Waco: NSF Spectrum Sizzle", ll: [-97.146, 31.549], lbl: [-10, 4, "end"] },
   { id: "06", state: "California", note: "UL Solutions: wireless lab internship", ll: [-121.989, 37.548] },
   { id: "36", state: "New York", note: "New York: Spectrum Sizzle at NYIT · I ♥ NY", ll: [-73.94, 40.73] },
@@ -744,7 +810,7 @@ const CYAN = "#5ef2ff";
       .attr("stroke", CYAN).attr("stroke-opacity", d => (d.id === "566" || d.id === "840") ? .9 : .35).attr("stroke-width", .6);
     const route = gGlobe.append("path").attr("fill", "none").attr("stroke", CYAN).attr("stroke-opacity", .25).attr("stroke-dasharray", "3 5");
     const trail = gGlobe.append("path").attr("fill", "none").attr("stroke", "#e8feff").attr("stroke-width", 2).attr("filter", "url(#glow)");
-    const interp = d3.geoInterpolate(LAGOS, ATL);
+    const interp = d3.geoInterpolate(LAGOS, DC);
     const lagosDot = gGlobe.append("circle").attr("r", 4).attr("fill", "#f2b233").attr("filter", "url(#glow)");
     const lagosTxt = gGlobe.append("text").text("LAGOS");
     // US map
@@ -758,7 +824,7 @@ const CYAN = "#5ef2ff";
       const p = interp(t), cam = interp(Math.min(1, t * 0.92 + 0.04));
       proj.rotate([-cam[0], -cam[1] * 0.7, 0]);
       sphere.attr("d", path); gr.attr("d", path); land.attr("d", path);
-      route.attr("d", path({ type: "LineString", coordinates: [LAGOS, ATL] }));
+      route.attr("d", path({ type: "LineString", coordinates: [LAGOS, DC] }));
       trail.attr("d", path({ type: "LineString", coordinates: d3.range(0, t + 1e-6, Math.max(t / 40, 0.005)).map(interp).concat([p]) }));
       const lp = proj(LAGOS), vis = d3.geoDistance(LAGOS, proj.invert([W / 2, H / 2])) < Math.PI / 2;
       lagosDot.attr("cx", lp[0]).attr("cy", lp[1]).style("opacity", vis ? 1 : 0); lagosTxt.attr("x", lp[0] + 8).attr("y", lp[1] - 8).style("opacity", vis ? 1 : 0);
@@ -766,15 +832,24 @@ const CYAN = "#5ef2ff";
       const ang = Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI + 90, sc = 1 + 0.5 * Math.sin(Math.PI * t);
       plane.attr("transform", `translate(${a[0]},${a[1]}) rotate(${ang}) scale(${sc})`);
       const km = Math.round(d3.geoDistance(LAGOS, p) * 6371);
-      readout.innerHTML = `LOS → ATL · ${t < 1 ? "EN ROUTE" : "LANDED"}<br>${km.toLocaleString()} KM · ${(t * 100 | 0)}%`;
+      readout.innerHTML = `LOS → IAD · ${t < 1 ? "EN ROUTE" : "LANDED"}<br>${km.toLocaleString()} KM · ${(t * 100 | 0)}%`;
     }
     function lightStates() {
       gUS.transition().duration(900).style("opacity", 1);
       gGlobe.transition().duration(900).style("opacity", 0).attr("transform", `translate(${W / 2},${H / 2}) scale(2.4) translate(${-W / 2},${-H / 2})`);
-      const atl = albers(ATL);
-      plane.transition().duration(900).attr("transform", `translate(${atl[0]},${atl[1]}) rotate(200) scale(.8)`).transition().duration(300).style("opacity", 0);
+      // the trip: the plane hops stop to stop, leaving a trail behind it
+      const where = pl => albers(pl.ll || d3.geoCentroid(states.find(d => d.id === pl.id)));
+      const trip = PLACES.filter(pl => pl.trip), hop = 750, landAt = i => 900 + i * hop;
+      const stops = trip.map(where).filter(Boolean);
+      const heading = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI + 90;
+      let tp = plane.transition().duration(900).attr("transform", `translate(${stops[0]}) rotate(${heading(stops[0], stops[1])}) scale(.8)`);
+      stops.slice(1).forEach((xy, k) => { tp = tp.transition().duration(hop).ease(d3.easeCubicInOut).attr("transform", `translate(${xy}) rotate(${heading(stops[k], xy)}) scale(.8)`); });
+      tp.transition().duration(300).style("opacity", 0);
+      const tripLine = pins.append("path").attr("d", d3.line()(stops)).attr("fill", "none").attr("stroke", "#e8feff").attr("stroke-width", 1.6).attr("filter", "url(#glow)");
+      const len = tripLine.node().getTotalLength();
+      tripLine.attr("stroke-dasharray", `${len} ${len}`).attr("stroke-dashoffset", len).transition().delay(900).duration(hop * (stops.length - 1)).ease(d3.easeLinear).attr("stroke-dashoffset", 0);
       PLACES.forEach((pl, i) => {
-        const delay = 1000 + i * 420;
+        const delay = pl.trip ? landAt(i) : landAt(trip.length - 1) + 400 + (i - trip.length + 1) * 420;
         st.filter(d => d.id === pl.id).transition().delay(delay).duration(500).attr("fill", "rgba(94,242,255,.32)").attr("stroke-opacity", 1).attr("stroke-width", 1.4).attr("filter", "url(#glow)");
         const f = states.find(d => d.id === pl.id), xy = albers(pl.ll || d3.geoCentroid(f));
         if (!xy) return;
@@ -813,17 +888,22 @@ const onScroll = () => { const past = scrollY > innerHeight * 0.85; document.bod
 addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
 /* live clock (Alabama = US Central time) */
-const clock = $("#clock");
-const tickClock = () => { clock.textContent = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "America/Chicago" }) + " CT"; };
+const hudTrack = $("#hudtrack"); hudTrack.appendChild(hudTrack.firstElementChild.cloneNode(true));
+const tickClock = () => { const t = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "America/Chicago" }) + " CT";
+  document.querySelectorAll(".hud .clock").forEach(c => c.textContent = t); };
 tickClock(); setInterval(tickClock, 15000);
 $("#yr").textContent = new Date().getFullYear();
 
-/* theme toggle (remembered per visitor when storage is available) */
-const root = document.documentElement;
-try { const saved = localStorage.getItem("theme"); if (saved) root.dataset.theme = saved; } catch (e) {}
+/* theme: follows the system setting (the <head> script sets it before paint) until the visitor toggles.
+   Toggling back to what the system says clears the choice, so it follows the system again. */
+const root = document.documentElement, sysLight = matchMedia("(prefers-color-scheme: light)");
+const systemTheme = () => sysLight.matches ? "light" : "dark";
+const savedTheme = () => { try { return localStorage.getItem("theme"); } catch (e) { return null; } };
+sysLight.addEventListener("change", () => { if (!savedTheme()) root.dataset.theme = systemTheme(); });
 $("#theme").onclick = () => {
-  root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
-  try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+  const next = root.dataset.theme === "light" ? "dark" : "light";
+  root.dataset.theme = next;
+  try { next === systemTheme() ? localStorage.removeItem("theme") : localStorage.setItem("theme", next); } catch (e) {}
 };
 </script>
 </body>

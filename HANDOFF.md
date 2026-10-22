@@ -44,6 +44,18 @@ NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect E
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer --print-to-pdf=assets/Bello_Ibrahim_Resume.pdf "file://$PWD/resume/resume.html"
 Check it is still 1 page. Linked from the nav, hero links, menu and Contact. Copy on his Desktop: Bello_Ibrahim_Resume_Updated.pdf.
 
+## Changes on 2026-10-22 (later)
+- Opener (slide 1 headline): "I code. I film. I build." (he rejected longer lines as too wordy).
+- Status bar (.hud) is a seamless right-to-left marquee (set cloned in JS, pauses on hover), Amatic SC font
+  (he picked the tall/thin "KGS" look), LOC shows 34°47′00″N 86°34′19″W, plus a left-to-right teal glow (chipglow).
+- Theme follows the system (inline <head> script, no flash); the toggle saves an override, toggling back to the
+  system value clears it. Light mode: warmer paper bg, white cards with soft shadows, darker teal accent2.
+- Moments heading: "See the world through my lens." Footer "Built by hand" removed.
+- Recap nudge (#nudge): paper card bottom-left ~6 s after first interaction, Caveat note + self-drawing spiral
+  arrow to "Watch it" (opens assets/recap.mp4), dismissible, once per visit (sessionStorage).
+- Map: globe flight Lagos → Washington, D.C. (Dulles), then plane hops D.C. → North Carolina → Atlanta → Alabama
+  (PLACES with trip: true, in order) leaving a trail; other states light after.
+
 ## His preferences for this site
 - Must look creative and hand-made, **not "AI-made"**. Combine new ideas with what exists; don't replace
   sections wholesale without asking.
