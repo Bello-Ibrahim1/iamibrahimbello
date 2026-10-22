@@ -53,7 +53,7 @@ NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect E
 2. He bought `iamibrahimbello.xyz` at IONOS (contract 114157742) on 2026-10-22; it was still activating (not yet
    under Domains & SSL). A `CNAME` file was added then removed again, because it made the github.io link redirect
    to the not-yet-working domain. Re-add `CNAME` only after the IONOS DNS records below are in place.
-   Spectrum Sizzle: he went twice, NYIT Long Island (June 2025, the AAMU article) and NSF in Waco, TX (2026).
+   Spectrum Sizzle: he went twice, NYIT Long Island (June 2025, the AAMU article) and NSF in Waco, TX (2026). Texas photos: spectrum-cert (dreads selfie), spectrum-lab. NY: spectrum-nyit, -field, -group. He wants no captions on these slides.
    (creates `CNAME`), set the registrar DNS (A records to GitHub Pages IPs for the apex, CNAME `www` →
    bello-ibrahim1.github.io), enforce HTTPS.
 3. When the BioHackathon film is on YouTube: set the first project's `cta`/`link` to the video (TODO comment
