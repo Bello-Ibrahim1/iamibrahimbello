@@ -56,7 +56,8 @@ NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect E
    Spectrum Sizzle: he went twice, NYIT Long Island (June 2025, the AAMU article) and NSF in Waco, TX (2026). The hero slide keeps only spectrum-cert (Texas, portrait), no caption; he removed the other photos as not fitting.
    (creates `CNAME`), set the registrar DNS (A records to GitHub Pages IPs for the apex, CNAME `www` →
    bello-ibrahim1.github.io), enforce HTTPS.
-3. When the BioHackathon film is on YouTube: set the first project's `cta`/`link` to the video (TODO comment
-   in `PROJECTS`).
+3. Full recap now plays on the site: `assets/recap.mp4` (1080p, 42 MB, from final-v9-4k.mp4) via "Watch the full recap".
+   When it's on YouTube, switch the first project to a YouTube embed (TODO in `PROJECTS`). Hero photos show no captions
+   (he asked); captions in `PROJECTS` slides are alt text only. "Day one" was removed from Moments (it's in the hero).
 4. Optional: a real (patient-data-free) screenshot of the Clinical Data Assistant; a sharper Megan Hardin photo;
    TikTok/YouTube links once he has them.

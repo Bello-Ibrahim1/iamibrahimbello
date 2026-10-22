@@ -512,8 +512,8 @@
 const PROJECTS = [
   { title: "BioHackathon", accent: "Recap", tags: ["Latest event", "St. Jude, Memphis", "2026"],
     desc: "Check out the latest event I attended: the St. Jude KIDS BioHackathon, told through five interviews with the people behind it. Filmed, cut, captioned and mixed by me.",
-    video: "assets/teaser.mp4", cta: "Play teaser", link: "film", film: "assets/teaser.mp4" },
-    // TODO: once the film is on YouTube, use: cta: "Watch the film", link: "https://youtu.be/<your video id>"
+    video: "assets/teaser.mp4", cta: "Watch the full recap", link: "film", film: "assets/recap.mp4" },
+    // the full 2:31 recap is a 1080p copy (~45 MB) of final-v9-4k.mp4. TODO: once it's on YouTube, embed that instead
   { head: "PhishGuard", title: "Phish", accent: "Guard", tags: ["AI web extension", "3rd place", "AAMU STEM Day 2026"],
     desc: "An AI-powered Chrome extension and API that scans your inbox for phishing. Our team took 3rd place at AAMU STEM Day 2026.",
     slides: [["assets/phishguard-cert.jpg", "3rd place · AAMU STEM Day 2026"]], cta: "View on GitHub", link: "https://github.com/Bello-Ibrahim1/PhishGuard" },
@@ -537,7 +537,6 @@ const PROJECTS = [
 
 /* Moments: photos that fade into each other (edit freely) */
 const MOMENTS = [
-  ["assets/arrival.mp4", "Day one at St. Jude", "Walking up to the Marlo Thomas Center on day one of the St. Jude KIDS BioHackathon, camera already rolling."],
   ["assets/stjude-art.jpg", "Why we were there", "Artwork by St. Jude patients lines the halls: a daily reminder of exactly who the BioHackathon is for."],
   ["assets/stjude-staff-selfie.jpg", "The BioHackathon crew", "Got a chance to meet the BioHackathon event staff at St. Jude, the people who kept three days of hacking running smoothly."],
   ["assets/stjude-ods.jpg", "Meeting Kerry Page", "Got a chance to meet Kerry Page, Senior VP of Data Science, outside the St. Jude Office of Data Science in Memphis."],
@@ -582,8 +581,8 @@ const edFrame = $("#edframe"), edLight = $("#edlight"), edOuter = document.query
 SLIDES.forEach((p, i) => {
   const g = document.createElement("div"); g.className = "grp";
   if (p.video) { const v = document.createElement("video"); Object.assign(v, { src: p.video, muted: true, loop: true, playsInline: true }); v.setAttribute("muted", ""); g.appendChild(v); }
-  else p.slides.forEach(([src, , fit]) => {
-    const im = new Image(); im.src = src; im.alt = "";
+  else p.slides.forEach(([src, caption, fit]) => {
+    const im = new Image(); im.src = src; im.alt = caption;   // captions are alt text only; the frame shows no caption
     // "whole": a wide photo shown in full over a blurred copy of itself, so nobody at the edges gets cropped out
     if (fit === "whole") { const w = document.createElement("div"); w.className = "whole"; w.style.setProperty("--src", `url("${src}")`); w.appendChild(im); g.appendChild(w); }
     else { if (fit) im.style.objectPosition = fit; g.appendChild(im); }
@@ -622,7 +621,7 @@ function show(i) {
   clearInterval(slideTimer); $("#pcap").textContent = ""; $("#rec").style.display = p.video ? "" : "none";
   if (!p.video) {
     const kids = [...p._g.children]; let k = 0;
-    const step = () => { kids.forEach((im, j) => im.classList.toggle("on", j === k)); $("#pcap").textContent = p.slides[k][1]; k = (k + 1) % kids.length; };
+    const step = () => { kids.forEach((im, j) => im.classList.toggle("on", j === k)); k = (k + 1) % kids.length; };
     step(); if (kids.length > 1 && !reduce) slideTimer = setInterval(step, 3200);
   }
   scrambleHeads(p.head || `${p.title} ${p.accent}`);
