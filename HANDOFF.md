@@ -1,7 +1,8 @@
 # Handoff: iamibrahimbello.xyz portfolio (as of 2026-10-22)
 
 Ibrahim Bello's personal portfolio. One static page, `index.html` (HTML + CSS + vanilla JS, no build step),
-assets in `assets/`. Git repo in this folder (branch `main`, not pushed anywhere yet).
+assets in `assets/`. Git repo in this folder (branch `main`), pushed to github.com/Bello-Ibrahim1/iamibrahimbello.
+**Live:** https://bello-ibrahim1.github.io/iamibrahimbello/ (GitHub Pages, deploys from `main` / root on every push).
 
 ## Preview locally
     cd ~/Projects/iamibrahimbello && python3 -m http.server 4173    # http://localhost:4173
@@ -47,9 +48,8 @@ NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect E
 - Always show him a preview (screenshot sent in chat + the local page) before calling something done.
 
 ## Next steps
-1. He creates an empty public GitHub repo (e.g. `iamibrahimbello`, account Bello-Ibrahim1) and sends the link
-   → push `main`, enable GitHub Pages (Settings → Pages → branch `main`, `/ (root)`). `.nojekyll` is present.
-2. He buys `iamibrahimbello.xyz` (Porkbun / Namecheap / Cloudflare) → add it under Pages → Custom domain
+1. ~~GitHub Pages~~ done 2026-10-22.
+2. He is buying `iamibrahimbello.xyz` at IONOS (domain only) → add it under Pages → Custom domain
    (creates `CNAME`), set the registrar DNS (A records to GitHub Pages IPs for the apex, CNAME `www` →
    bello-ibrahim1.github.io), enforce HTTPS.
 3. When the BioHackathon film is on YouTube: set the first project's `cta`/`link` to the video (TODO comment
