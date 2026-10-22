@@ -2,7 +2,7 @@
 
 Ibrahim Bello's personal portfolio. One static page, `index.html` (HTML + CSS + vanilla JS, no build step),
 assets in `assets/`. Git repo in this folder (branch `main`), pushed to github.com/Bello-Ibrahim1/iamibrahimbello.
-**Live:** https://bello-ibrahim1.github.io/iamibrahimbello/ (GitHub Pages, deploys from `main` / root on every push).
+**Live:** https://iamibrahimbello.xyz (also https://bello-ibrahim1.github.io/iamibrahimbello/, which redirects) (GitHub Pages, deploys from `main` / root on every push).
 
 ## Preview locally
     cd ~/Projects/iamibrahimbello && python3 -m http.server 4173    # http://localhost:4173
@@ -55,9 +55,8 @@ Check it is still 1 page. Linked from the nav, hero links, menu and Contact. Cop
 ## Next steps
 1. ~~GitHub Pages~~ done 2026-10-22. Hero slides take an optional 3rd value per photo: `"whole"` (wide photo shown
    in full over a blurred copy, so people at the edges aren't cropped) or an object-position like `"28% 50%"`.
-2. He bought `iamibrahimbello.xyz` at IONOS (contract 114157742) on 2026-10-22; it was still activating (not yet
-   under Domains & SSL). A `CNAME` file was added then removed again, because it made the github.io link redirect
-   to the not-yet-working domain. Re-add `CNAME` only after the IONOS DNS records below are in place.
+2. ~~Domain~~ done 2026-10-22: IONOS DNS = A @ 185.199.108-111.153, CNAME www -> bello-ibrahim1.github.io (IONOS Default Site
+   records disabled; mail records left). `CNAME` file in repo. Enforce HTTPS in Settings -> Pages once the cert is issued.
    Spectrum Sizzle: he went twice, NYIT Long Island (June 2025, the AAMU article) and NSF in Waco, TX (2026). The hero slide keeps only spectrum-cert (Texas, portrait), no caption; he removed the other photos as not fitting.
    (creates `CNAME`), set the registrar DNS (A records to GitHub Pages IPs for the apex, CNAME `www` →
    bello-ibrahim1.github.io), enforce HTTPS.
