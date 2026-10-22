@@ -10,12 +10,13 @@
 <meta property="og:image" content="assets/banner.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter+Tight:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Caveat:wght@500;700&family=Inter+Tight:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #111111; --bg2: #1a1a1a; --card: #1e1e1e; --line: rgba(255,255,255,.09);
     --fg: #ecebe6; --muted: #8d8b85; --accent: #f2b233; --accent2: #3fd0c9; --shadow: 0 30px 80px rgba(0,0,0,.55);
     --mono: "JetBrains Mono", ui-monospace, Menlo, monospace; --sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --serif: "Bodoni Moda", "Didot", "Bodoni 72", serif;   /* fashion-magazine serif, used sparingly */
   }
   :root[data-theme="light"] {
     --bg: #efede7; --bg2: #e6e3db; --card: #f8f7f3; --line: rgba(0,0,0,.1);
@@ -61,7 +62,7 @@
   .ed .float { z-index: 2; }
   .ed-layer { position: absolute; inset: 0; pointer-events: none; z-index: 3; color: var(--ed-out); }
   .ed-layer.inner { color: var(--ed-in); }
-  .ed-mark { position: absolute; left: 22vw; top: 52px; font: 800 clamp(28px, 3.3vw, 52px)/1 "Inter Tight", sans-serif; letter-spacing: -.055em; white-space: nowrap; }
+  .ed-mark { position: absolute; left: 22vw; top: 48px; font: 500 clamp(30px, 3.7vw, 58px)/1 var(--serif); letter-spacing: -.035em; white-space: nowrap; }
   .ed-head { position: absolute; left: 50%; top: 50%; translate: -50% -52%; width: min(76vw, 1300px); text-align: center; margin: 0;
              font: 700 clamp(40px, 6.2vw, 118px)/.88 "Inter Tight", sans-serif; letter-spacing: -.05em; transition: opacity .45s ease; }
   .ed-head.out { opacity: 0; }
@@ -85,7 +86,7 @@
   .menu { position: fixed; inset: 0; z-index: 95; background: var(--bg); color: var(--fg); display: grid; place-items: center; opacity: 0; pointer-events: none; transition: opacity .35s; font-family: "Inter Tight", sans-serif; }
   .menu.on { opacity: 1; pointer-events: auto; }
   .menu nav { display: flex; flex-direction: column; gap: 6px; text-align: center; }
-  .menu nav a { font: 700 clamp(44px, 8vw, 110px)/.95 "Inter Tight", sans-serif; letter-spacing: -.05em; color: var(--fg); text-decoration: none; }
+  .menu nav a { font: 400 clamp(44px, 8vw, 110px)/1 var(--serif); letter-spacing: -.03em; color: var(--fg); text-decoration: none; }
   .menu nav a:hover { font-style: italic; }
   .menu .close { position: absolute; left: 48px; top: 58px; font: 400 19px/1 "Inter Tight", sans-serif; text-transform: uppercase; background: none; border: 0; cursor: pointer; color: var(--fg); }
   /* the dark site's fixed bars wait until you've scrolled past the opener */
@@ -227,6 +228,7 @@
   /* ---------- hand-made touches ---------- */
   .hand { font-family: "Caveat", cursive; font-weight: 700; }
   .big em, .squig { font-style: normal; color: inherit; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16' preserveAspectRatio='none'%3E%3Cpath d='M2 11 C 30 4, 52 14, 80 8 S 130 3, 160 9 S 190 12, 198 6' fill='none' stroke='%23f2b233' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 100% / 100% .28em; padding-bottom: .08em; }
+  .big em { font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -.02em; }
   .big .split { color: inherit; position: relative; }
   .big .split::after { content: ""; position: absolute; inset: -.18em -.22em -.12em -.28em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 90' preserveAspectRatio='none'%3E%3Cpath d='M30 20 C 80 2, 190 4, 210 38 C 226 70, 120 88, 50 80 C 4 74, 2 40, 40 22 C 60 14, 90 10, 120 12' fill='none' stroke='%23f2b233' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%; pointer-events: none; }
   .sign { font: 700 40px/1 "Caveat", cursive; color: var(--fg); transform: rotate(-4deg); display: inline-block; margin-top: 4px; }
@@ -519,7 +521,7 @@ const PROJECTS = [
     slides: [["assets/phishguard-cert.jpg", "3rd place · AAMU STEM Day 2026"]], cta: "View on GitHub", link: "https://github.com/Bello-Ibrahim1/PhishGuard" },
   { title: "Spectrum", accent: "Sizzle", tags: ["NSF", "Wireless & RF", "Waco, TX"],
     desc: "An all-expenses-paid NSF workshop in Waco, Texas on wireless, microwave and communications engineering: spectrum policy, radar and RF circuit design.",
-    slides: [["assets/spectrum-cert.jpg", "Certificate of completion"], ["assets/spectrum-nyit.jpg", "Certificate in hand at NYIT", "28% 50%"], ["assets/spectrum-lab.jpg", "In the lab", "whole"], ["assets/spectrum-field.jpg", "Briefing for the RF Fox Hunt", "whole"], ["assets/spectrum-group.jpg", "The Spectrum Sizzle cohort", "whole"]],
+    slides: [["assets/spectrum-cert.jpg", "Certificate of completion"], ["assets/spectrum-nyit.jpg", "Certificate in hand at NYIT", "28% 50%"], ["assets/spectrum-lab.jpg", "", "whole"], ["assets/spectrum-field.jpg", "Briefing for the RF Fox Hunt", "whole"], ["assets/spectrum-group.jpg", "The Spectrum Sizzle cohort", "whole"]],
     cta: "Read more", link: "https://www.aamu.edu/about/inside-aamu/news/computer-science-engineering-students-gain-hands-on-experience-in-spectrum-technology.html" },
   { title: "UL", accent: "Solutions", tags: ["Wireless Lab Testing Intern", "California"],
     desc: "Wireless Lab Testing Intern at UL Solutions in California, testing wireless devices in the lab alongside a cohort of interns.",
