@@ -578,7 +578,7 @@ SLIDES.forEach((p, i) => {
 });
 function clipLight() {
   // snap the frame to whole pixels so the black/white cut lands exactly on its edge
-  edFrame.style.translate = "0 0"; edFrame.style.left = "50%";
+  edFrame.style.width = ""; edFrame.style.translate = "0 0"; edFrame.style.left = "50%";
   const w = Math.round(edFrame.getBoundingClientRect().width);
   edFrame.style.width = w + "px"; edFrame.style.left = Math.round(($("#top").clientWidth - w) / 2) + "px";
   const sec = $("#top").getBoundingClientRect(), f = edFrame.getBoundingClientRect();
