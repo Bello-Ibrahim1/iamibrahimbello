@@ -56,6 +56,8 @@ Check it is still 1 page. Linked from the nav, hero links, menu and Contact. Cop
 - Map: globe flight Lagos → Washington, D.C. (Dulles), then plane hops D.C. → North Carolina → Atlanta → Alabama
   (PLACES with trip: true, in order) leaving a trail; other states light after.
 
+- Tab title "Hi, I'm Ibrahim!"; link previews use assets/og-card.jpg (1200x630: "Hi, I'm Ibrahim!" + headshot), absolute og/twitter tags.
+
 ## His preferences for this site
 - Must look creative and hand-made, **not "AI-made"**. Combine new ideas with what exists; don't replace
   sections wholesale without asking.
