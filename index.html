@@ -79,10 +79,11 @@
   .ed-arrow.l { left: 30px; } .ed-arrow.r { right: 30px; }
   .ed-meta { position: absolute; right: 30px; bottom: 84px; width: min(23vw, 340px); z-index: 5; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
   .ed-meta .count { font: 500 12px/1 var(--mono); color: var(--muted); letter-spacing: .08em; }
-  @media (max-height: 760px) and (min-width: 861px) {   /* short laptop windows: keep the links clear of the slide info */
+  @media (max-height: 860px) and (min-width: 861px) {   /* short laptop windows: keep the links clear of the slide info */
     .ed-links { gap: 9px; font-size: 15px; } .ed-links .first { margin-bottom: 14px; padding-bottom: 8px; }
     .ed-meta { bottom: 66px; gap: 8px; } .ed-meta .pdesc { font-size: 13px; line-height: 1.4; }
   }
+  @media (max-height: 700px) and (min-width: 861px) { .ed-meta .pdesc { display: none; } }
   .ed-meta .tags { justify-content: flex-end; margin: 0; }
   .ed-meta .pdesc { margin: 0; font-size: 14.5px; line-height: 1.5; }
   .ed .dots { position: absolute; left: 50%; bottom: 30px; translate: -50% 0; z-index: 5; margin: 0; }
@@ -450,7 +451,7 @@
     <a class="wrow reveal" href="#top" data-go="2" data-img="assets/spectrum-cert.jpg"><span class="n">03</span><h3>Spectrum Sizzle ×2</h3><span class="role">Workshops · NYIT &amp; Waco, TX</span><span class="yr">2025–26</span><span class="go">→</span></a>
     <a class="wrow reveal" href="#top" data-go="3" data-img="assets/ul-solutions.jpg"><span class="n">04</span><h3>UL Solutions</h3><span class="role">Wireless Lab Testing Intern</span><span class="yr">2026</span><span class="go">→</span></a>
     <a class="wrow reveal" href="#top" data-go="4" data-img="assets/shipt-hq.jpg"><span class="n">05</span><h3>Shipt × Black Men in Tech</h3><span class="role">Emerging Talent Summit · Shipt HQ</span><span class="yr">2025</span><span class="go">→</span></a>
-    <a class="wrow reveal" href="#top" data-go="5"><span class="n">06</span><h3>Tracer Fire 13 &amp; 14</h3><span class="role">Sandia CTF · 2nd &amp; 3rd</span><span class="yr">2025–26</span><span class="go">→</span></a>
+    <a class="wrow reveal" href="#top" data-go="5" data-img="assets/tracerfire14.jpg"><span class="n">06</span><h3>Tracer Fire 13 &amp; 14</h3><span class="role">Sandia CTF · 2nd &amp; 3rd</span><span class="yr">2025–26</span><span class="go">→</span></a>
   </div>
 </section>
 
@@ -534,9 +535,9 @@ const PROJECTS = [
     desc: "Spent a day in the life at Shipt HQ with Black Men in Tech's Tech Connect Emerging Talent Summit, meeting the people who build the product.",
     slides: [["assets/shipt-hq.jpg", "Shipt HQ"], ["assets/shipt-summit.jpg", "Tech Connect · Emerging Talent Summit"]],
     cta: "See more work", link: "#work" },
-  { title: "Tracer", accent: "Fire", tags: ["Sandia National Labs", "2nd · Tracer Fire 13", "3rd · Tracer Fire 14"],
-    desc: "Cybersecurity capture-the-flag at Sandia National Labs: I led our team Zentr0 through simulated APT-style attack investigations, placing 2nd at Tracer Fire 13 (September 2025) and 3rd at Tracer Fire 14.",
-    slides: [],   // no photo: the frame stays dark behind the headline
+  { title: "Tracer", accent: "Fire", tags: ["Sandia National Labs", "2nd · Tracer Fire 13", "3rd · Tracer Fire 14 · $2,000"],
+    desc: "Sandia National Labs' cybersecurity competition: I led my team through simulated APT-style attack investigations, placing 2nd at Tracer Fire 13 (September 2025, team Zentr0) and 3rd at Tracer Fire 14 (September 2026, team CyBex, $2,000).",
+    slides: [["assets/tracerfire14.jpg", "3rd place at Tracer Fire 14 · team CyBex · $2,000"]],
     cta: "Say hi", link: "#contact" },
 ];
 

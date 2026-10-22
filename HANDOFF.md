@@ -36,7 +36,7 @@ assets in `assets/`. Git repo in this folder (branch `main`), pushed to github.c
 7. **Contact:** ibrahim.bello.idowu@gmail.com, LinkedIn (linkedin.com/in/bello-ibrahim), Instagram @dfwbell0, GitHub.
 
 Facts confirmed by Ibrahim: PhishGuard WAS the SecureCell hackathon project: 1st place / Best Overall ($1,500), later 3rd at AAMU STEM Day 2026; team **Zentr0**
-placed 2nd at Tracer Fire 13 (Sept 2025) and 3rd at Tracer Fire 14; 
+placed 2nd at Tracer Fire 13 (Sept 2025) and 3rd at Tracer Fire 14 (Sept 13 2026, as team CyBex, $2,000; photo assets/tracerfire14.jpg, cropped to the team + check); 
 NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect Emerging Talent Summit 2025.
 
 ## Resume
