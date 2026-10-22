@@ -35,8 +35,16 @@
   img, video { display: block; }
 
   /* ---------- editorial opener (Zara / The Fold-er style) ---------- */
-  :root { --ed-out: #f4f2ec; --ed-in: transparent; --ed-stroke: 1.6px #fff; }
-  :root[data-theme="light"] { --ed-out: #111; --ed-in: #fff; --ed-stroke: 0 transparent; }
+  /* the opener is always a light "magazine cover", like Zara: black type on the page, white type over the photo */
+  .ed { --fg: #111; --muted: #5d5a53; --bg: #f3f1ec; --bg2: #e8e5de; --line: rgba(0,0,0,.12); --ed-out: #111; --ed-in: #fff; background: #f3f1ec; }
+  .ed .bgvid { filter: blur(30px) saturate(1.1) brightness(1.15); opacity: .32; }
+  .ed .ed-frame::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+                         background: linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.22) 50%, rgba(0,0,0,.08)); }
+  .ed .float .tag { text-shadow: none; }
+  .ed .tags span { background: transparent; border-color: rgba(0,0,0,.18); color: #3b3933; }
+  .ed .btn { background: #111; color: #f3f1ec; }
+  .ed .dots i { background: rgba(0,0,0,.16); }
+  .ed .dots i.on { background: #111; }
   .ed { position: relative; height: 100vh; height: 100svh; min-height: 600px; color: var(--fg); overflow: hidden; font-family: "Inter Tight", var(--sans); }
   .ed-frame { position: absolute; left: 50%; top: 0; bottom: 0; width: min(40vw, calc(100svh * .56)); translate: -50% 0; overflow: hidden; background: #000; z-index: 1; }
   .ed-frame .grp { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; }
@@ -49,7 +57,7 @@
   .ed-frame .cap:empty { display: none; }
   .ed .float { z-index: 2; }
   .ed-layer { position: absolute; inset: 0; pointer-events: none; z-index: 3; color: var(--ed-out); }
-  .ed-layer.inner { color: var(--ed-in); -webkit-text-stroke: var(--ed-stroke); }
+  .ed-layer.inner { color: var(--ed-in); }
   .ed-mark { position: absolute; left: 22vw; top: 52px; font: 800 clamp(28px, 3.3vw, 52px)/1 "Inter Tight", sans-serif; letter-spacing: -.055em; white-space: nowrap; }
   .ed-head { position: absolute; left: 50%; top: 50%; translate: -50% -52%; width: min(76vw, 1300px); text-align: center; margin: 0;
              font: 700 clamp(40px, 6.2vw, 118px)/.88 "Inter Tight", sans-serif; letter-spacing: -.05em; transition: opacity .45s ease; }
@@ -353,7 +361,7 @@
   <div class="float" style="--w:105px;--ar:3/4;--r:-10deg;left:4%;top:22%;--t:6s" data-depth="18"><img src="assets/stjude-ducks.jpg" alt="Ibrahim at St. Jude by patients' artwork"><span class="tag">st. jude, memphis</span></div>
   <div class="float" style="--w:82px;--ar:9/16;--r:6deg;left:15%;top:46%" data-depth="36"><video src="assets/arrival.mp4" autoplay muted loop playsinline aria-label="Walking into St. Jude"></video><span class="tag">day one ↗</span></div>
   <div class="float" style="--w:124px;--ar:4/3;--r:-6deg;left:3%;bottom:12%;--t:8s" data-depth="26"><img src="assets/ul-solutions.jpg" alt="UL Solutions intern group"><span class="tag">ul solutions, CA</span></div>
-  <div class="float" style="--w:88px;--ar:3/4;--r:9deg;right:16%;top:31%;--t:7s" data-depth="30"><img src="assets/shipt-hq.jpg" alt="Ibrahim at Shipt HQ"><span class="tag">shipt hq!</span></div>
+  <div class="float" style="--w:88px;--ar:3/4;--r:9deg;right:16%;top:20%;--t:7s" data-depth="30"><img src="assets/shipt-hq.jpg" alt="Ibrahim at Shipt HQ"><span class="tag">shipt hq!</span></div>
 
   <div class="ed-frame" id="edframe"><span class="rec" id="rec">REC · 1080×1920</span><div class="cap" id="pcap"></div></div>
   <div class="ed-layer outer" aria-hidden="true"><div class="ed-mark">Ibrahim Bello</div><div class="ed-head"></div></div>
@@ -569,8 +577,12 @@ SLIDES.forEach((p, i) => {
   const d = document.createElement("i"); d.onclick = () => { show(i); auto(); }; dots.appendChild(d);
 });
 function clipLight() {
+  // snap the frame to whole pixels so the black/white cut lands exactly on its edge
+  edFrame.style.translate = "0 0"; edFrame.style.left = "50%";
+  const w = Math.round(edFrame.getBoundingClientRect().width);
+  edFrame.style.width = w + "px"; edFrame.style.left = Math.round(($("#top").clientWidth - w) / 2) + "px";
   const sec = $("#top").getBoundingClientRect(), f = edFrame.getBoundingClientRect();
-  const l = f.left - sec.left, t = f.top - sec.top, r = l + f.width, b = t + f.height, W = sec.width, H = sec.height;
+  const l = Math.round(f.left - sec.left), t = Math.round(f.top - sec.top), r = Math.round(f.right - sec.left), b = Math.round(f.bottom - sec.top), W = Math.round(sec.width), H = Math.round(sec.height);
   edLight.style.clipPath = `inset(${t}px ${W - r}px ${H - b}px ${l}px)`;
   // the solid layer gets a hole where the frame is, so only the flipped text shows over the photo
   edOuter.style.clipPath = `polygon(evenodd, 0 0, ${W}px 0, ${W}px ${H}px, 0 ${H}px, 0 0, ${l}px ${t}px, ${r}px ${t}px, ${r}px ${b}px, ${l}px ${b}px, ${l}px ${t}px)`;
