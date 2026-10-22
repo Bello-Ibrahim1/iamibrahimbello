@@ -69,6 +69,7 @@
            box-shadow: var(--shadow); border: 1px solid var(--line); background: var(--card);
            transform: translate(var(--px, 0px), var(--py, 0px)) rotate(var(--r, 0deg));
            transition: transform .6s cubic-bezier(.2,.7,.2,1), opacity .5s; cursor: pointer; }
+  .float video { width: 100%; height: 100%; object-fit: cover; }
   .float img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s, filter .4s; filter: saturate(.85); animation: bob var(--t, 7s) ease-in-out infinite alternate; }
   .float:hover img { transform: scale(1.06); filter: saturate(1.1); }
   .float .tag { position: absolute; left: 8px; bottom: 8px; font: 500 10px/1 var(--mono); text-transform: uppercase; letter-spacing: .05em;
@@ -76,10 +77,21 @@
   .float:hover .tag { opacity: 1; }
   @keyframes bob { from { transform: translateY(-4px) scale(1.02); } to { transform: translateY(4px) scale(1.02); } }
 
+  /* the film, blurred and looping behind the hero */
+  .bgvid { position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; z-index: 0;
+           filter: blur(24px) saturate(1.3) brightness(.62); transform: scale(1.05); pointer-events: none; }
+  :root[data-theme="light"] .bgvid { filter: blur(26px) saturate(1.1) brightness(1.05) opacity(.55); }
+  .bgshade { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+             background: radial-gradient(ellipse at center, transparent 30%, var(--bg) 92%), linear-gradient(to bottom, transparent 70%, var(--bg)); }
   .stage { position: relative; z-index: 2; display: grid; grid-template-columns: auto auto; align-items: center; gap: 48px; }
   .media { position: relative; height: min(66vh, 620px); aspect-ratio: 9/16; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
            border: 1px solid var(--line); background: #000; transform: perspective(900px) rotateY(var(--ry, 8deg)) rotateX(var(--rx, 2deg)); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-  .media video, .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .5s; }
+  .media video, .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .9s ease; }
+  .media .slides img { opacity: 0; transform: scale(1.04); transition: opacity 1.1s ease, transform 6s linear; }
+  .media .slides img.on { opacity: 1; transform: scale(1.12); }
+  .media .cap { position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 3; font: 500 11px/1.35 var(--mono); color: #fff;
+                background: rgba(0,0,0,.55); padding: 7px 9px; border-radius: 7px; letter-spacing: .03em; transition: opacity .4s; }
+  .media .cap:empty { opacity: 0; }
   .media .rec { position: absolute; top: 12px; left: 12px; z-index: 3; font: 500 10px/1 var(--mono); color: #fff; background: rgba(0,0,0,.55);
                 padding: 6px 8px; border-radius: 6px; letter-spacing: .06em; }
   .media .rec::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; margin-right: 6px; animation: blink 1.2s steps(2) infinite; }
@@ -117,6 +129,30 @@
   .about p { color: var(--muted); font-size: 18px; line-height: 1.65; margin: 0 0 16px; }
   .about p b { color: var(--fg); font-weight: 600; }
   .todo { outline: 1.5px dashed var(--accent); outline-offset: 3px; border-radius: 3px; }
+  .headshot { position: relative; justify-self: center; width: min(100%, 360px); }
+  .headshot img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 22px; box-shadow: var(--shadow); }
+  .headshot::before { content: ""; position: absolute; inset: -14px 14px 14px -14px; border: 2px solid var(--accent); border-radius: 26px; z-index: -1; transition: inset .5s; }
+  .headshot:hover::before { inset: -20px 20px 20px -20px; }
+  .headshot span { position: absolute; right: -10px; bottom: 26px; font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
+                   background: var(--fg); color: var(--bg); padding: 8px 10px; border-radius: 8px; transform: rotate(-4deg); }
+  /* moments: photos fade into each other */
+  .gallery { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: center; }
+  .frame { position: relative; aspect-ratio: 4/3; border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); background: var(--card); }
+  .frame video, .thumbs video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .thumbs button { position: relative; }
+  .frame video { opacity: 0; transition: opacity 1.4s ease; object-position: 50% 22%; }
+  .frame video.on { opacity: 1; }
+  .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.03);
+               transition: opacity 1.4s ease, transform 7s linear; }
+  .frame img.on { opacity: 1; transform: scale(1.1); }
+  .frame .bar { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--accent); width: 0; }
+  .gtext .count { margin-bottom: 14px; }
+  .gtext h3 { font: 700 clamp(26px, 3vw, 40px)/1.08 var(--sans); letter-spacing: -.02em; margin: 0 0 12px; min-height: 2.2em; }
+  .gtext p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0 0 22px; min-height: 3.2em; }
+  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .thumbs button { padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; aspect-ratio: 1/1; cursor: pointer; background: none; opacity: .5; transition: opacity .3s, border-color .3s; }
+  .thumbs button.on { opacity: 1; border-color: var(--accent); }
+  .thumbs img { width: 100%; height: 100%; object-fit: cover; }
   .polaroid { background: #f7f5ef; padding: 12px 12px 46px; border-radius: 4px; box-shadow: var(--shadow); transform: rotate(3deg); transition: transform .5s; position: relative; max-width: 340px; justify-self: center; }
   .polaroid:hover { transform: rotate(-1deg) scale(1.03); }
   .polaroid img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
@@ -165,6 +201,7 @@
     .float { --w: 96px !important; opacity: .55; }
     .float.hide-m { display: none; }
     .about { grid-template-columns: 1fr; gap: 40px; }
+    .gallery { grid-template-columns: 1fr; }
     .wrow { grid-template-columns: 36px 1fr 30px; }
     .wrow .role, .wrow .yr { display: none; }
     .now { display: none; }
@@ -189,13 +226,13 @@
   <span class="chip">LOCAL::<b id="clock">--:--</b></span>
   <span class="chip">MODE::<b>SCIENCE × STORY</b></span>
   <span class="chip">SCHOOL::<b>ALABAMA A&amp;M</b></span>
-  <span class="chip">LATEST::<b>BIOHACKATHON FILM</b></span>
+  <span class="chip">LATEST::<b>ST. JUDE BIOHACKATHON</b></span>
 </div>
 
 <nav class="nav">
   <a class="mono-logo" href="#top" aria-label="Ibrahim Bello, home"><span>I</span><span>B</span></a>
   <div class="pill">
-    <a href="#about">About</a><a href="#work">Work</a><a href="#contact">Contact</a>
+    <a href="#about">About</a><a href="#work">Work</a><a href="#moments">Moments</a><a href="#contact">Contact</a>
   </div>
   <div class="tools">
     <button class="iconbtn" id="theme" aria-label="Toggle light and dark mode">
@@ -205,23 +242,26 @@
 </nav>
 
 <header class="hero" id="top">
+  <video class="bgvid" src="assets/bg.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+  <div class="bgshade"></div>
   <!-- floating cards: real moments, gently drifting and following the cursor -->
-  <div class="float" style="--w:170px;--ar:4/3;--r:-14deg;left:3%;top:16%;--t:6s" data-depth="18"><img src="assets/photo-pol-team.jpg" alt="Team photo at the BioHackathon"><span class="tag">the team</span></div>
-  <div class="float hide-m" style="--w:130px;--ar:3/4;--r:9deg;left:14%;bottom:12%;--t:8s" data-depth="30"><img src="assets/helix.jpg" alt="DNA helix still from the film"><span class="tag">AML · helix</span></div>
-  <div class="float" style="--w:150px;--ar:4/5;--r:12deg;right:4%;top:15%;--t:7s" data-depth="24"><img src="assets/photo-pol-cert.jpg" alt="BioHackathon Travel Award certificate"><span class="tag">travel award</span></div>
-  <div class="float hide-m" style="--w:190px;--ar:16/10;--r:-8deg;right:8%;bottom:10%;--t:9s" data-depth="14"><img src="assets/banner.jpg" alt="BioHackathon banner outside St. Jude"><span class="tag">memphis, tn</span></div>
-  <div class="float hide-m" style="--w:115px;--ar:3/4;--r:-6deg;left:30%;top:9%;--t:7.5s" data-depth="36"><img src="assets/photo-pol-staff.jpg" alt="With the organizers"><span class="tag">organizers</span></div>
-  <div class="float hide-m" style="--w:120px;--ar:1/1;--r:16deg;right:30%;bottom:6%;--t:6.5s" data-depth="40"><img src="assets/photo-pol-art.jpg" alt="Kids' art at St. Jude"><span class="tag">the why</span></div>
+  <div class="float" style="--w:150px;--ar:3/4;--r:-12deg;left:3%;top:15%;--t:6s" data-depth="18"><img src="assets/stjude-ducks.jpg" alt="Ibrahim at St. Jude by patients' artwork"><span class="tag">st. jude, memphis</span></div>
+  <div class="float hide-m" style="--w:170px;--ar:4/3;--r:8deg;left:12%;bottom:11%;--t:8s" data-depth="30"><img src="assets/ul-solutions.jpg" alt="UL Solutions intern group"><span class="tag">ul solutions</span></div>
+  <div class="float" style="--w:140px;--ar:3/4;--r:11deg;right:4%;top:14%;--t:7s" data-depth="24"><img src="assets/shipt-hq.jpg" alt="Ibrahim at Shipt HQ"><span class="tag">shipt hq</span></div>
+  <div class="float hide-m" style="--w:180px;--ar:4/3;--r:-7deg;right:7%;bottom:9%;--t:9s" data-depth="14"><img src="assets/phishguard-cert.jpg" alt="Third place certificate, AAMU STEM Day 2026"><span class="tag">phishguard · 3rd</span></div>
+  <div class="float hide-m" style="--w:120px;--ar:9/16;--r:-5deg;left:29%;top:8%" data-depth="36"><video src="assets/arrival.mp4" autoplay muted loop playsinline aria-label="Walking into St. Jude"></video><span class="tag">day 1 · st. jude</span></div>
+  <div class="float hide-m" style="--w:125px;--ar:3/4;--r:14deg;right:29%;bottom:5%;--t:6.5s" data-depth="40"><img src="assets/campus.jpg" alt="Alabama A&amp;M campus at golden hour"><span class="tag">home base · aamu</span></div>
 
   <div class="stage">
     <div class="media" id="media">
       <span class="rec" id="rec">REC · 1080×1920</span>
       <video id="pvideo" src="assets/teaser.mp4" poster="assets/title.jpg" autoplay muted loop playsinline></video>
-      <img id="pimg" alt="" style="opacity:0">
+      <div class="slides" id="pslides"></div>
+      <div class="cap" id="pcap"></div>
     </div>
     <div class="meta">
       <div class="count" id="pcount">N°01 / 03</div>
-      <h1 class="ptitle" id="ptitle">BioHackathon</h1>
+      <h1 class="ptitle" id="ptitle">BioHackathon Recap</h1>
       <div class="tags" id="ptags"></div>
       <p class="pdesc" id="pdesc"></p>
       <div class="row">
@@ -248,12 +288,12 @@
       <p>I'm <b>Ibrahim Bello</b>, a student at <b>Alabama A&amp;M University</b> and a <b>2026 St. Jude KIDS BioHackathon Travel Award</b> recipient.</p>
       <p class="todo">[One or two lines in your own words: your major, what you're curious about, and what you want to build next. Edit this in index.html.]</p>
       <div class="stats">
-        <div class="stat"><b>2026</b><span>BioHackathon<br>Travel Award</span></div>
-        <div class="stat"><b>5</b><span>interviews in<br>one recap film</span></div>
-        <div class="stat"><b>2:31</b><span>of edited<br>story</span></div>
+        <div class="stat"><b>3rd</b><span>PhishGuard ·<br>AAMU STEM Day</span></div>
+        <div class="stat"><b>2026</b><span>St. Jude<br>Travel Award</span></div>
+        <div class="stat"><b>1</b><span>recap film,<br>5 interviews</span></div>
       </div>
     </div>
-    <div class="polaroid reveal"><img src="assets/me.jpg" alt="Ibrahim Bello, mirror selfie"><span>me, memphis '26</span></div>
+    <div class="headshot reveal"><img src="assets/headshot.jpg" alt="Ibrahim Bello"><span>Ibrahim Bello</span></div>
   </div>
 </section>
 
@@ -261,8 +301,23 @@
   <div class="label">Selected work</div>
   <div class="work">
     <a class="wrow reveal" href="#top" data-go="0" data-img="assets/title.jpg"><span class="n">01</span><h3>St. Jude BioHackathon Recap</h3><span class="role">Film · interviews, edit, sound</span><span class="yr">2026</span><span class="go">→</span></a>
-    <a class="wrow reveal" href="#top" data-go="1" data-img="assets/photo-pol-cert.jpg"><span class="n">02</span><h3>BioHackathon Travel Award</h3><span class="role">Recognition · St. Jude ODS</span><span class="yr">2026</span><span class="go">→</span></a>
-    <a class="wrow reveal soon" href="#top" data-go="2" data-img="assets/helix.jpg"><span class="n">03</span><h3>In the lab</h3><span class="role">Next project · coming soon</span><span class="yr">—</span><span class="go">→</span></a>
+    <a class="wrow reveal" href="#top" data-go="1" data-img="assets/phishguard-cert.jpg"><span class="n">02</span><h3>PhishGuard</h3><span class="role">AI web extension · 3rd place</span><span class="yr">2026</span><span class="go">→</span></a>
+    <a class="wrow reveal" href="#top" data-go="2" data-img="assets/spectrum-cert.jpg"><span class="n">03</span><h3>NSF Spectrum Sizzle</h3><span class="role">Workshop · Waco, TX</span><span class="yr">2026</span><span class="go">→</span></a>
+    <a class="wrow reveal" href="#top" data-go="3" data-img="assets/ul-solutions.jpg"><span class="n">04</span><h3>UL Solutions</h3><span class="role todo">Internship · [your role]</span><span class="yr">2026</span><span class="go">→</span></a>
+    <a class="wrow reveal" href="#top" data-go="4" data-img="assets/shipt-hq.jpg"><span class="n">05</span><h3>Shipt × Black Men in Tech</h3><span class="role">Emerging Talent Summit · Shipt HQ</span><span class="yr">2025</span><span class="go">→</span></a>
+  </div>
+</section>
+
+<section class="block" id="moments">
+  <div class="label">Moments</div>
+  <div class="gallery">
+    <div class="frame reveal" id="gframe"><div class="bar" id="gbar"></div></div>
+    <div class="gtext reveal">
+      <div class="count" id="gcount">01 / 08</div>
+      <h3 id="gtitle"></h3>
+      <p id="gdesc"></p>
+      <div class="thumbs" id="gthumbs"></div>
+    </div>
   </div>
 </section>
 
@@ -298,16 +353,36 @@
    link: where the button goes. "film" opens the video player; a URL opens it.
 ------------------------------------------------------------------- */
 const PROJECTS = [
-  { title: "BioHackathon", accent: "Recap", tags: ["Film", "w/ St. Jude ODS", "2026"],
-    desc: "A 2½-minute vertical recap of the St. Jude KIDS BioHackathon: five interviews with the people behind it, cut, captioned and mixed by me.",
-    media: "assets/teaser.mp4", poster: "assets/title.jpg", cta: "Play teaser", link: "film", film: "assets/teaser.mp4" },
+  { title: "BioHackathon", accent: "Recap", tags: ["Latest event", "St. Jude, Memphis", "2026"],
+    desc: "Check out the latest event I attended: the St. Jude KIDS BioHackathon, told through five interviews with the people behind it. Filmed, cut, captioned and mixed by me.",
+    video: "assets/teaser.mp4", cta: "Play teaser", link: "film", film: "assets/teaser.mp4" },
     // TODO: once the film is on YouTube, use: cta: "Watch the film", link: "https://youtu.be/<your video id>"
-  { title: "Travel", accent: "Award", tags: ["Recognition", "St. Jude KIDS BioHackathon", "2026"],
-    desc: "Selected for a Travel Award to the 2026 St. Jude KIDS BioHackathon in Memphis: three days of building tools for pediatric cancer research.",
-    media: "assets/photo-pol-cert.jpg", cta: "See the event", link: "#about" },
-  { title: "In the", accent: "lab", tags: ["Coming soon"],
-    desc: "Something new is in the works. Check back soon.",
-    media: "assets/helix.jpg", cta: "Say hi", link: "#contact" },
+  { title: "Phish", accent: "Guard", tags: ["AI web extension", "3rd place", "AAMU STEM Day 2026"],
+    desc: "An AI-powered web extension that helps people spot phishing. Our team took 3rd place in the AAMU STEM Day 2026 undergraduate poster presentations.",
+    slides: [["assets/phishguard-cert.jpg", "3rd place · AAMU STEM Day 2026"]], cta: "See more work", link: "#work" },
+  { title: "Spectrum", accent: "Sizzle", tags: ["NSF", "Wireless & RF", "Waco, TX"],
+    desc: "An all-expenses-paid NSF workshop in Waco, Texas on wireless, microwave and communications engineering: spectrum policy, radar and RF circuit design.",
+    slides: [["assets/spectrum-cert.jpg", "Certificate of completion"], ["assets/spectrum-lab.jpg", "In the lab"], ["assets/spectrum-field.jpg", "Hunting signals outside"], ["assets/spectrum-group.jpg", "The Spectrum Sizzle cohort"]],
+    cta: "See more work", link: "#work" },
+  { title: "UL", accent: "Solutions", tags: ["Internship", "2026"],
+    desc: "[Your role and what you worked on at UL Solutions: one or two lines.]",
+    slides: [["assets/ul-solutions.jpg", "The UL Solutions intern cohort"]], cta: "See more work", link: "#work" },
+  { title: "Shipt ×", accent: "BMIT", tags: ["Black Men in Tech", "Shipt HQ", "2025"],
+    desc: "Spent a day in the life at Shipt HQ with Black Men in Tech's Tech Connect Emerging Talent Summit, meeting the people who build the product.",
+    slides: [["assets/shipt-hq.jpg", "Shipt HQ"], ["assets/shipt-summit.jpg", "Tech Connect · Emerging Talent Summit"], ["assets/shipt-hq-wide.jpg", "A day in the life"]],
+    cta: "Say hi", link: "#contact" },
+];
+
+/* Moments: photos that fade into each other (edit freely) */
+const MOMENTS = [
+  ["assets/arrival.mp4", "Day one", "Walking up to the Marlo Thomas Center at St. Jude for the BioHackathon."],
+  ["assets/stjude-art.jpg", "St. Jude, Memphis", "Patients' artwork lines the halls at St. Jude. A good reminder of who the BioHackathon is for."],
+  ["assets/stjude-staff-selfie.jpg", "The people who make it happen", "With BioHackathon event staff at St. Jude, September 2026."],
+  ["assets/stjude-ods.jpg", "Office of Data Science", "Outside the St. Jude Office of Data Science, the team behind the BioHackathon."],
+  ["assets/shipt-summit.jpg", "Shipt × Black Men in Tech", "Tech Connect Emerging Talent Summit at Shipt HQ."],
+  ["assets/spectrum-group.jpg", "Spectrum Sizzle cohort", "Students from across the country, all into wireless and RF."],
+  ["assets/ul-solutions.jpg", "UL Solutions", "The intern cohort."],
+  ["assets/campus.jpg", "Home base", "Alabama A&M University at golden hour."],
 ];
 
 const $ = s => document.querySelector(s);
@@ -329,7 +404,7 @@ function scramble(el, html, text) {
   tick();
 }
 
-let cur = 0;
+let cur = 0, slideTimer;
 const dots = $("#dots");
 PROJECTS.forEach((_, i) => { const d = document.createElement("i"); d.onclick = () => show(i); dots.appendChild(d); });
 function show(i) {
@@ -340,9 +415,15 @@ function show(i) {
   $("#ptags").innerHTML = p.tags.map(x => `<span>${x}</span>`).join("");
   $("#pdesc").textContent = p.desc;
   const cta = $("#pcta"); cta.textContent = p.cta; cta.href = p.link === "film" ? "#" : p.link; cta.dataset.film = p.link === "film" ? p.film : "";
-  const v = $("#pvideo"), im = $("#pimg");
-  if (p.media.endsWith(".mp4")) { im.style.opacity = 0; v.style.opacity = 1; if (!v.src.endsWith(p.media)) v.src = p.media; v.play().catch(() => {}); $("#rec").style.display = ""; }
-  else { im.src = p.media; im.style.opacity = 1; v.style.opacity = 0; v.pause(); $("#rec").style.display = "none"; }
+  const v = $("#pvideo"), box = $("#pslides");
+  clearInterval(slideTimer); box.innerHTML = ""; $("#pcap").textContent = "";
+  if (p.video) { v.style.opacity = 1; v.play().catch(() => {}); $("#rec").style.display = ""; }
+  else {
+    v.style.opacity = 0; v.pause(); $("#rec").style.display = "none";
+    p.slides.forEach(([src]) => { const im = new Image(); im.src = src; im.alt = ""; box.appendChild(im); });
+    let k = 0; const step = () => { [...box.children].forEach((im, j) => im.classList.toggle("on", j === k)); $("#pcap").textContent = p.slides[k][1]; k = (k + 1) % p.slides.length; };
+    step(); if (p.slides.length > 1 && !reduce) slideTimer = setInterval(step, 3200);
+  }
   [...dots.children].forEach((d, k) => d.classList.toggle("on", k === cur));
 }
 $("#prev").onclick = () => show(cur - 1);
@@ -373,6 +454,27 @@ document.querySelectorAll(".wrow").forEach(r => {
   r.addEventListener("pointermove", e => { peek.style.left = e.clientX + 130 + "px"; peek.style.top = e.clientY + "px"; });
   r.addEventListener("click", () => show(+r.dataset.go));
 });
+
+/* moments gallery: crossfade every 4.5 s, thumbnails jump */
+const gframe = $("#gframe"), gthumbs = $("#gthumbs"); let g = 0, gTimer;
+MOMENTS.forEach(([src], i) => {
+  const isVid = src.endsWith(".mp4");
+  const im = isVid ? Object.assign(document.createElement("video"), { src, muted: true, loop: true, playsInline: true, autoplay: true }) : Object.assign(new Image(), { src, alt: MOMENTS[i][1] });
+  if (isVid) im.setAttribute("muted", ""); gframe.insertBefore(im, $("#gbar"));
+  const b = document.createElement("button"); b.innerHTML = isVid ? `<video src="${src}" muted playsinline></video>` : `<img src="${src}" alt="">`; b.setAttribute("aria-label", MOMENTS[i][1]);
+  b.onclick = () => { showMoment(i); restartMoments(); }; gthumbs.appendChild(b);
+});
+function showMoment(i) {
+  g = (i + MOMENTS.length) % MOMENTS.length;
+  [...gframe.querySelectorAll("img, video")].forEach((im, j) => im.classList.toggle("on", j === g));
+  [...gthumbs.children].forEach((b, j) => b.classList.toggle("on", j === g));
+  $("#gcount").textContent = String(g + 1).padStart(2, "0") + " / " + String(MOMENTS.length).padStart(2, "0");
+  scramble($("#gtitle"), MOMENTS[g][1], MOMENTS[g][1]); $("#gdesc").textContent = MOMENTS[g][2];
+  const bar = $("#gbar"); bar.style.transition = "none"; bar.style.width = "0";
+  if (!reduce) requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.transition = "width 4.5s linear"; bar.style.width = "100%"; }));
+}
+function restartMoments() { clearInterval(gTimer); if (!reduce) gTimer = setInterval(() => showMoment(g + 1), 4500); }
+showMoment(0); restartMoments();
 
 /* reveal on scroll */
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
