@@ -27,7 +27,7 @@ assets in `assets/`. Git repo in this folder (branch `main`), pushed to github.c
    since it can't be run without credentialed MIMIC-IV data; links github.com/stjude-biohackathon/KIDS26-Team2),
    and an empty "Next project" slot.
 4. **Work list:** 6 rows (BioHackathon recap, PhishGuard, NSF Spectrum Sizzle, UL Solutions (Wireless Lab
-   Testing Intern), Shipt × Black Men in Tech (2025), SecureCell & Tracer Fire). Hover = preview image.
+   Testing Intern), Shipt × Black Men in Tech (2025), Tracer Fire 13 & 14). Hover = preview image. PhishGuard slide holds the SecureCell photos.
 5. **Map ("From Lagos to everywhere"):** d3 holographic globe, plane flies Lagos → Atlanta, then a US map
    lights GA, AL, TN, MS, NC, TX, CA, NY (`PLACES` list). d3/topojson + atlas data load from jsdelivr.
 6. **Moments:** crossfading gallery with "Got a chance to meet …" captions (`MOMENTS` list): St. Jude arrival
@@ -35,8 +35,8 @@ assets in `assets/`. Git repo in this folder (branch `main`), pushed to github.c
    crew, Jewel Taylor (Director, People Business Partners, Shipt), Shipt summit, Spectrum Sizzle, UL, NY, AAMU.
 7. **Contact:** ibrahim.bello.idowu@gmail.com, LinkedIn (linkedin.com/in/bello-ibrahim), Instagram @dfwbell0, GitHub.
 
-Facts confirmed by Ibrahim: SecureCell hackathon = his team won Best Overall GPT ($1,500); team **Zentr0**
-placed 2nd at Tracer Fire 13 (Sept 2025) and 3rd at Tracer Fire 14; PhishGuard 3rd at AAMU STEM Day 2026;
+Facts confirmed by Ibrahim: PhishGuard WAS the SecureCell hackathon project: 1st place / Best Overall ($1,500), later 3rd at AAMU STEM Day 2026; team **Zentr0**
+placed 2nd at Tracer Fire 13 (Sept 2025) and 3rd at Tracer Fire 14; 
 NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect Emerging Talent Summit 2025.
 
 ## Resume
