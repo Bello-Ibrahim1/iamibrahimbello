@@ -40,7 +40,6 @@ placed 2nd at Tracer Fire 13 (Sept 2025) and 3rd at Tracer Fire 14; PhishGuard 3
 NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect Emerging Talent Summit 2025.
 
 ## His preferences for this site
-- Zara-style serif (Bodoni Moda, `--serif`) on the wordmark, the italic `<em>` words in `.big` headings and the menu; keep it to accents.
 - Must look creative and hand-made, **not "AI-made"**. Combine new ideas with what exists; don't replace
   sections wholesale without asking.
 - Liked: Zara-style headline flip (black on page / white over photo), the blurred film, floating photos
