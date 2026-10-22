@@ -561,7 +561,7 @@ function scramble(el, html, text) {
 const SLIDES = [{ head: "I build with data and tell stories with a camera.", tags: ["Comp Sci × Finance", "Alabama A&M", "Lagos → USA"],
                   desc: "Student, builder and storyteller. Use the arrows to flip through what I've been up to.",
                   video: "assets/teaser.mp4", cta: "See my projects", link: "#projects" }, ...PROJECTS];
-const edFrame = $("#edframe"), edLight = $("#edlight"), edHeads = document.querySelectorAll(".ed-head"), dots = $("#dots");
+const edFrame = $("#edframe"), edLight = $("#edlight"), edOuter = document.querySelector(".ed-layer.outer"), edHeads = document.querySelectorAll(".ed-head"), dots = $("#dots");
 SLIDES.forEach((p, i) => {
   const g = document.createElement("div"); g.className = "grp";
   if (p.video) { const v = document.createElement("video"); Object.assign(v, { src: p.video, muted: true, loop: true, playsInline: true }); v.setAttribute("muted", ""); g.appendChild(v); }
@@ -571,7 +571,10 @@ SLIDES.forEach((p, i) => {
 });
 function clipLight() {
   const sec = $("#top").getBoundingClientRect(), f = edFrame.getBoundingClientRect();
-  edLight.style.clipPath = `inset(${f.top - sec.top}px ${sec.right - f.right}px ${sec.bottom - f.bottom}px ${f.left - sec.left}px)`;
+  const l = f.left - sec.left, t = f.top - sec.top, r = l + f.width, b = t + f.height, W = sec.width, H = sec.height;
+  edLight.style.clipPath = `inset(${t}px ${W - r}px ${H - b}px ${l}px)`;
+  // the solid layer gets a hole where the frame is, so only the flipped text shows over the photo
+  edOuter.style.clipPath = `polygon(evenodd, 0 0, ${W}px 0, ${W}px ${H}px, 0 ${H}px, 0 0, ${l}px ${t}px, ${r}px ${t}px, ${r}px ${b}px, ${l}px ${b}px, ${l}px ${t}px)`;
 }
 function scrambleHeads(text) {
   $("#edsr").textContent = "Ibrahim Bello: " + text;
