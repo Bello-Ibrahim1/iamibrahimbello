@@ -153,6 +153,26 @@
   .thumbs button { padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; aspect-ratio: 1/1; cursor: pointer; background: none; opacity: .5; transition: opacity .3s, border-color .3s; }
   .thumbs button.on { opacity: 1; border-color: var(--accent); }
   .thumbs img { width: 100%; height: 100%; object-fit: cover; }
+  /* holographic map */
+  .holo-wrap { display: grid; grid-template-columns: 1.7fr 1fr; gap: 28px; align-items: center; }
+  .holo { position: relative; aspect-ratio: 16/10; border-radius: 22px; overflow: hidden; border: 1px solid rgba(94,242,255,.25);
+          background: radial-gradient(ellipse at 50% 55%, rgba(24,80,110,.55), rgba(5,12,20,.96) 70%); box-shadow: 0 0 60px rgba(60,200,255,.12) inset, var(--shadow); }
+  .holo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .holo .scan { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: .35;
+                background: repeating-linear-gradient(to bottom, rgba(94,242,255,.08) 0 1px, transparent 1px 4px); animation: scan 7s linear infinite; }
+  @keyframes scan { from { background-position: 0 0; } to { background-position: 0 200px; } }
+  .holo .sweep { position: absolute; left: 0; right: 0; height: 30%; pointer-events: none; background: linear-gradient(to bottom, transparent, rgba(94,242,255,.08), transparent); animation: sweep 5s ease-in-out infinite; }
+  @keyframes sweep { from { top: -30%; } to { top: 100%; } }
+  .holo .readout { position: absolute; left: 14px; top: 12px; font: 500 11px/1.5 var(--mono); color: #7ff3ff; letter-spacing: .08em; text-transform: uppercase; text-shadow: 0 0 8px rgba(94,242,255,.7); }
+  .holo .replay { position: absolute; right: 12px; bottom: 12px; background: rgba(94,242,255,.12); color: #bff8ff; border-color: rgba(94,242,255,.35); }
+  .holo text { font: 500 11px var(--mono); fill: #c9fbff; letter-spacing: .04em; paint-order: stroke; stroke: rgba(3,12,20,.85); stroke-width: 3px; }
+  .places { display: flex; flex-direction: column; gap: 8px; }
+  .place { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg2);
+           opacity: .45; transform: translateX(10px); transition: opacity .5s, transform .5s, border-color .5s; }
+  .place.lit { opacity: 1; transform: none; border-color: rgba(94,242,255,.35); }
+  .place i { font: 500 11px/1 var(--mono); color: var(--accent2); padding-top: 3px; }
+  .place b { display: block; font-weight: 600; }
+  .place span { font-size: 13px; color: var(--muted); }
   .polaroid { background: #f7f5ef; padding: 12px 12px 46px; border-radius: 4px; box-shadow: var(--shadow); transform: rotate(3deg); transition: transform .5s; position: relative; max-width: 340px; justify-self: center; }
   .polaroid:hover { transform: rotate(-1deg) scale(1.03); }
   .polaroid img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
@@ -202,6 +222,7 @@
     .float.hide-m { display: none; }
     .about { grid-template-columns: 1fr; gap: 40px; }
     .gallery { grid-template-columns: 1fr; }
+    .holo-wrap { grid-template-columns: 1fr; }
     .wrow { grid-template-columns: 36px 1fr 30px; }
     .wrow .role, .wrow .yr { display: none; }
     .now { display: none; }
@@ -232,7 +253,7 @@
 <nav class="nav">
   <a class="mono-logo" href="#top" aria-label="Ibrahim Bello, home"><span>I</span><span>B</span></a>
   <div class="pill">
-    <a href="#about">About</a><a href="#work">Work</a><a href="#moments">Moments</a><a href="#contact">Contact</a>
+    <a href="#about">About</a><a href="#work">Work</a><a href="#map">Map</a><a href="#moments">Moments</a><a href="#contact">Contact</a>
   </div>
   <div class="tools">
     <button class="iconbtn" id="theme" aria-label="Toggle light and dark mode">
@@ -303,8 +324,23 @@
     <a class="wrow reveal" href="#top" data-go="0" data-img="assets/title.jpg"><span class="n">01</span><h3>St. Jude BioHackathon Recap</h3><span class="role">Film · interviews, edit, sound</span><span class="yr">2026</span><span class="go">→</span></a>
     <a class="wrow reveal" href="#top" data-go="1" data-img="assets/phishguard-cert.jpg"><span class="n">02</span><h3>PhishGuard</h3><span class="role">AI web extension · 3rd place</span><span class="yr">2026</span><span class="go">→</span></a>
     <a class="wrow reveal" href="#top" data-go="2" data-img="assets/spectrum-cert.jpg"><span class="n">03</span><h3>NSF Spectrum Sizzle</h3><span class="role">Workshop · Waco, TX</span><span class="yr">2026</span><span class="go">→</span></a>
-    <a class="wrow reveal" href="#top" data-go="3" data-img="assets/ul-solutions.jpg"><span class="n">04</span><h3>UL Solutions</h3><span class="role todo">Internship · [your role]</span><span class="yr">2026</span><span class="go">→</span></a>
+    <a class="wrow reveal" href="#top" data-go="3" data-img="assets/ul-solutions.jpg"><span class="n">04</span><h3>UL Solutions</h3><span class="role">Wireless Lab Testing Intern</span><span class="yr">2026</span><span class="go">→</span></a>
     <a class="wrow reveal" href="#top" data-go="4" data-img="assets/shipt-hq.jpg"><span class="n">05</span><h3>Shipt × Black Men in Tech</h3><span class="role">Emerging Talent Summit · Shipt HQ</span><span class="yr">2025</span><span class="go">→</span></a>
+    <a class="wrow reveal" href="#top" data-go="5" data-img="assets/hack-handshake.jpg"><span class="n">06</span><h3>SecureCell &amp; Tracer Fire 13</h3><span class="role">Hackathon · CTF</span><span class="yr">2025</span><span class="go">→</span></a>
+  </div>
+</section>
+
+<section class="block" id="map">
+  <div class="label">Where I've been</div>
+  <h2 class="big reveal">From <em>Lagos</em><br>to the lab.</h2>
+  <div class="holo-wrap">
+    <div class="holo reveal" id="holo">
+      <svg id="holosvg" viewBox="0 0 960 600" role="img" aria-label="Animated map: a flight from Lagos, Nigeria to Atlanta, then the US states Ibrahim has visited"></svg>
+      <div class="sweep"></div><div class="scan"></div>
+      <div class="readout" id="readout">Initializing…</div>
+      <button class="iconbtn replay" id="replay" aria-label="Replay the flight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+    </div>
+    <div class="places reveal" id="places"></div>
   </div>
 </section>
 
@@ -313,7 +349,7 @@
   <div class="gallery">
     <div class="frame reveal" id="gframe"><div class="bar" id="gbar"></div></div>
     <div class="gtext reveal">
-      <div class="count" id="gcount">01 / 08</div>
+      <div class="count" id="gcount">01 / 11</div>
       <h3 id="gtitle"></h3>
       <p id="gdesc"></p>
       <div class="thumbs" id="gthumbs"></div>
@@ -346,6 +382,8 @@
   <video id="mvideo" controls playsinline></video>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script>
 /* ------------------------------------------------------------------
    Projects: edit this list to add or change work.
@@ -364,12 +402,16 @@ const PROJECTS = [
     desc: "An all-expenses-paid NSF workshop in Waco, Texas on wireless, microwave and communications engineering: spectrum policy, radar and RF circuit design.",
     slides: [["assets/spectrum-cert.jpg", "Certificate of completion"], ["assets/spectrum-lab.jpg", "In the lab"], ["assets/spectrum-field.jpg", "Hunting signals outside"], ["assets/spectrum-group.jpg", "The Spectrum Sizzle cohort"]],
     cta: "See more work", link: "#work" },
-  { title: "UL", accent: "Solutions", tags: ["Internship", "2026"],
-    desc: "[Your role and what you worked on at UL Solutions: one or two lines.]",
-    slides: [["assets/ul-solutions.jpg", "The UL Solutions intern cohort"]], cta: "See more work", link: "#work" },
+  { title: "UL", accent: "Solutions", tags: ["Wireless Lab Testing Intern", "California"],
+    desc: "Wireless Lab Testing Intern at UL Solutions in California, testing wireless devices in the lab alongside a cohort of interns.",
+    slides: [["assets/ul-sign.jpg", "UL Solutions · California"], ["assets/ul-solutions.jpg", "The intern cohort"], ["assets/ul-group2.jpg", "Lab crew"]], cta: "See more work", link: "#work" },
   { title: "Shipt ×", accent: "BMIT", tags: ["Black Men in Tech", "Shipt HQ", "2025"],
     desc: "Spent a day in the life at Shipt HQ with Black Men in Tech's Tech Connect Emerging Talent Summit, meeting the people who build the product.",
     slides: [["assets/shipt-hq.jpg", "Shipt HQ"], ["assets/shipt-summit.jpg", "Tech Connect · Emerging Talent Summit"], ["assets/shipt-hq-wide.jpg", "A day in the life"]],
+    cta: "See more work", link: "#work" },
+  { title: "Secure", accent: "Cell", tags: ["Hackathon", "Best Overall GPT", "Tracer Fire 13 CTF"],
+    desc: "Best Overall GPT ($1,500) at the SecureCell hackathon, and a weekend of capture-the-flag at Tracer Fire 13 (September 2025).",
+    slides: [["assets/hack-handshake.jpg", "Award handshake"], ["assets/hack-award.jpg", "Best Overall GPT · $1,500"], ["assets/hack-group.jpg", "SecureCell hackathon"], ["assets/hack-team.jpg", "The team"], ["assets/tracerfire-scoreboard.jpg", "Tracer Fire 13 scoreboard"]],
     cta: "Say hi", link: "#contact" },
 ];
 
@@ -378,10 +420,12 @@ const MOMENTS = [
   ["assets/arrival.mp4", "Day one", "Walking up to the Marlo Thomas Center at St. Jude for the BioHackathon."],
   ["assets/stjude-art.jpg", "St. Jude, Memphis", "Patients' artwork lines the halls at St. Jude. A good reminder of who the BioHackathon is for."],
   ["assets/stjude-staff-selfie.jpg", "The people who make it happen", "With BioHackathon event staff at St. Jude, September 2026."],
-  ["assets/stjude-ods.jpg", "Office of Data Science", "Outside the St. Jude Office of Data Science, the team behind the BioHackathon."],
+  ["assets/stjude-ods.jpg", "Kerry Page", "Meeting Kerry Page, Senior VP of Data Science, at the St. Jude Office of Data Science."],
+  ["assets/hack-selfie.jpg", "SecureCell hackathon", "The crew after a long build weekend."],
   ["assets/shipt-summit.jpg", "Shipt × Black Men in Tech", "Tech Connect Emerging Talent Summit at Shipt HQ."],
   ["assets/spectrum-group.jpg", "Spectrum Sizzle cohort", "Students from across the country, all into wireless and RF."],
   ["assets/ul-solutions.jpg", "UL Solutions", "The intern cohort."],
+  ["assets/i-love-ny.jpg", "New York", "Touchdown at LaGuardia."],
   ["assets/campus.jpg", "Home base", "Alabama A&M University at golden hour."],
 ];
 
@@ -475,6 +519,113 @@ function showMoment(i) {
 }
 function restartMoments() { clearInterval(gTimer); if (!reduce) gTimer = setInterval(() => showMoment(g + 1), 4500); }
 showMoment(0); restartMoments();
+
+/* ------------------------------------------------------------------
+   Holographic map: the globe spins from Lagos to Atlanta under a flying
+   plane, then zooms into the US and lights each state visited.
+   Edit PLACES to add states (FIPS id, label, optional city [lon, lat]).
+------------------------------------------------------------------- */
+const LAGOS = [3.3792, 6.5244], ATL = [-84.388, 33.749];
+const PLACES = [
+  { id: "13", state: "Georgia", note: "Atlanta: touchdown from Lagos", ll: ATL, lbl: [10, 18, "start"] },
+  { id: "01", state: "Alabama", note: "Alabama A&M University: home base", ll: [-86.586, 34.73], lbl: [-4, 30, "middle"] },
+  { id: "47", state: "Tennessee", note: "Memphis: St. Jude BioHackathon", ll: [-90.049, 35.149], lbl: [-8, -10, "end"] },
+  { id: "28", state: "Mississippi", note: "Mississippi", lbl: [0, 24, "middle"] },
+  { id: "37", state: "North Carolina", note: "North Carolina", lbl: [12, -6, "start"] },
+  { id: "48", state: "Texas", note: "Waco: NSF Spectrum Sizzle", ll: [-97.146, 31.549], lbl: [-10, 4, "end"] },
+  { id: "06", state: "California", note: "UL Solutions: wireless lab internship", ll: [-121.989, 37.548] },
+  { id: "36", state: "New York", note: "New York: I ♥ NY", ll: [-73.94, 40.73] },
+];
+const CYAN = "#5ef2ff";
+(function holoMap() {
+  if (!window.d3 || !window.topojson) { $("#readout").textContent = "Map offline"; return; }
+  const svg = d3.select("#holosvg"), W = 960, H = 600, readout = $("#readout");
+  const defs = svg.append("defs");
+  const glow = defs.append("filter").attr("id", "glow").attr("x", "-50%").attr("y", "-50%").attr("width", "200%").attr("height", "200%");
+  glow.append("feGaussianBlur").attr("stdDeviation", 3).attr("result", "b");
+  const m = glow.append("feMerge"); m.append("feMergeNode").attr("in", "b"); m.append("feMergeNode").attr("in", "SourceGraphic");
+  const gGlobe = svg.append("g"), gUS = svg.append("g").style("opacity", 0), gTop = svg.append("g");
+  const placesBox = $("#places");
+  PLACES.forEach((p, i) => { const d = document.createElement("div"); d.className = "place"; d.innerHTML = `<i>${String(i + 1).padStart(2, "0")}</i><div><b>${p.state}</b><span>${p.note}</span></div>`; placesBox.appendChild(d); });
+  // the plane (points up; rotated to its heading)
+  const plane = gTop.append("g").attr("filter", "url(#glow)").style("opacity", 0);
+  plane.append("path").attr("d", "M0,-14 L3,-4 L13,2 L13,5 L3,2 L2,9 L6,12 L6,14 L0,12 L-6,14 L-6,12 L-2,9 L-3,2 L-13,5 L-13,2 L-3,-4 Z").attr("fill", "#dffcff").attr("stroke", CYAN).attr("stroke-width", 1);
+
+  Promise.all([
+    d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json"),
+    d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-10m.json"),
+  ]).then(([world, us]) => {
+    const countries = topojson.feature(world, world.objects.countries).features;
+    const states = topojson.feature(us, us.objects.states).features;
+    const visited = new Set(PLACES.map(p => p.id));
+    // globe
+    const proj = d3.geoOrthographic().scale(250).translate([W / 2, H / 2]).clipAngle(90).precision(0.6);
+    const path = d3.geoPath(proj), grat = d3.geoGraticule10();
+    const sphere = gGlobe.append("path").datum({ type: "Sphere" }).attr("fill", "rgba(40,140,190,.10)").attr("stroke", CYAN).attr("stroke-opacity", .5).attr("filter", "url(#glow)");
+    const gr = gGlobe.append("path").datum(grat).attr("fill", "none").attr("stroke", CYAN).attr("stroke-opacity", .12);
+    const land = gGlobe.selectAll(".c").data(countries).join("path").attr("fill", d => (d.id === "566" || d.id === "840") ? "rgba(94,242,255,.30)" : "rgba(94,242,255,.06)")
+      .attr("stroke", CYAN).attr("stroke-opacity", d => (d.id === "566" || d.id === "840") ? .9 : .35).attr("stroke-width", .6);
+    const route = gGlobe.append("path").attr("fill", "none").attr("stroke", CYAN).attr("stroke-opacity", .25).attr("stroke-dasharray", "3 5");
+    const trail = gGlobe.append("path").attr("fill", "none").attr("stroke", "#e8feff").attr("stroke-width", 2).attr("filter", "url(#glow)");
+    const interp = d3.geoInterpolate(LAGOS, ATL);
+    const lagosDot = gGlobe.append("circle").attr("r", 4).attr("fill", "#f2b233").attr("filter", "url(#glow)");
+    const lagosTxt = gGlobe.append("text").text("LAGOS");
+    // US map
+    const albers = d3.geoAlbersUsa().fitExtent([[40, 50], [W - 40, H - 30]], { type: "FeatureCollection", features: states });
+    const upath = d3.geoPath(albers);
+    const st = gUS.selectAll(".s").data(states).join("path").attr("d", upath).attr("fill", "rgba(94,242,255,.04)").attr("stroke", CYAN).attr("stroke-opacity", .35).attr("stroke-width", .7);
+    const pins = gUS.append("g");
+
+    let timer;
+    function drawGlobe(t) {
+      const p = interp(t), cam = interp(Math.min(1, t * 0.92 + 0.04));
+      proj.rotate([-cam[0], -cam[1] * 0.7, 0]);
+      sphere.attr("d", path); gr.attr("d", path); land.attr("d", path);
+      route.attr("d", path({ type: "LineString", coordinates: [LAGOS, ATL] }));
+      trail.attr("d", path({ type: "LineString", coordinates: d3.range(0, t + 1e-6, Math.max(t / 40, 0.005)).map(interp).concat([p]) }));
+      const lp = proj(LAGOS), vis = d3.geoDistance(LAGOS, proj.invert([W / 2, H / 2])) < Math.PI / 2;
+      lagosDot.attr("cx", lp[0]).attr("cy", lp[1]).style("opacity", vis ? 1 : 0); lagosTxt.attr("x", lp[0] + 8).attr("y", lp[1] - 8).style("opacity", vis ? 1 : 0);
+      const a = proj(p), b = proj(interp(Math.min(1, t + 0.01)));
+      const ang = Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI + 90, sc = 1 + 0.5 * Math.sin(Math.PI * t);
+      plane.attr("transform", `translate(${a[0]},${a[1]}) rotate(${ang}) scale(${sc})`);
+      const km = Math.round(d3.geoDistance(LAGOS, p) * 6371);
+      readout.innerHTML = `LOS → ATL · ${t < 1 ? "EN ROUTE" : "LANDED"}<br>${km.toLocaleString()} KM · ${(t * 100 | 0)}%`;
+    }
+    function lightStates() {
+      gUS.transition().duration(900).style("opacity", 1);
+      gGlobe.transition().duration(900).style("opacity", 0).attr("transform", `translate(${W / 2},${H / 2}) scale(2.4) translate(${-W / 2},${-H / 2})`);
+      const atl = albers(ATL);
+      plane.transition().duration(900).attr("transform", `translate(${atl[0]},${atl[1]}) rotate(200) scale(.8)`).transition().duration(300).style("opacity", 0);
+      PLACES.forEach((pl, i) => {
+        const delay = 1000 + i * 420;
+        st.filter(d => d.id === pl.id).transition().delay(delay).duration(500).attr("fill", "rgba(94,242,255,.32)").attr("stroke-opacity", 1).attr("stroke-width", 1.4).attr("filter", "url(#glow)");
+        const f = states.find(d => d.id === pl.id), xy = albers(pl.ll || d3.geoCentroid(f));
+        if (!xy) return;
+        const g = pins.append("g").attr("transform", `translate(${xy[0]},${xy[1]})`).style("opacity", 0);
+        g.append("circle").attr("r", 4).attr("fill", i === 0 ? "#f2b233" : "#e8feff").attr("filter", "url(#glow)");
+        const ring = g.append("circle").attr("r", 4).attr("fill", "none").attr("stroke", CYAN);
+        const [lx, ly, la] = pl.lbl || [8, -8, "start"]; g.append("text").attr("x", lx).attr("y", ly).attr("text-anchor", la).text(pl.state.toUpperCase());
+        g.transition().delay(delay).duration(400).style("opacity", 1);
+        (function pulse() { ring.attr("r", 4).attr("stroke-opacity", .9).transition().delay(reduce ? 0 : delay).duration(1600).attr("r", 18).attr("stroke-opacity", 0).on("end", reduce ? null : pulse); })();
+        setTimeout(() => { placesBox.children[i].classList.add("lit"); readout.innerHTML = `VISITED · ${String(i + 1).padStart(2, "0")} / ${String(PLACES.length).padStart(2, "0")}<br>${pl.state.toUpperCase()}`; }, delay);
+      });
+    }
+    function play() {
+      if (timer) timer.stop(); svg.selectAll("*").interrupt(); pins.selectAll("*").remove();
+      [...placesBox.children].forEach(c => c.classList.remove("lit"));
+      gGlobe.attr("transform", null).style("opacity", 1); gUS.style("opacity", 0);
+      st.attr("fill", "rgba(94,242,255,.04)").attr("stroke-opacity", .35).attr("stroke-width", .7).attr("filter", null);
+      if (reduce) { drawGlobe(1); gGlobe.style("opacity", 0); lightStates(); return; }
+      plane.style("opacity", 1);
+      const D = 6000;
+      timer = d3.timer(el => { const t = d3.easeCubicInOut(Math.min(1, el / D)); drawGlobe(t); if (el >= D) { timer.stop(); setTimeout(lightStates, 350); } });
+    }
+    drawGlobe(0);
+    const mio = new IntersectionObserver(es => { if (es[0].isIntersecting) { play(); mio.disconnect(); } }, { threshold: .4 });
+    mio.observe($("#holo"));
+    $("#replay").onclick = play;
+  }).catch(() => { readout.textContent = "Map data offline"; });
+})();
 
 /* reveal on scroll */
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
