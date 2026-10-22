@@ -48,8 +48,12 @@ NSF Spectrum Sizzle in Waco, TX (all expenses paid); Shipt + BMIT Tech Connect E
 - Always show him a preview (screenshot sent in chat + the local page) before calling something done.
 
 ## Next steps
-1. ~~GitHub Pages~~ done 2026-10-22.
-2. He is buying `iamibrahimbello.xyz` at IONOS (domain only) → add it under Pages → Custom domain
+1. ~~GitHub Pages~~ done 2026-10-22. Hero slides take an optional 3rd value per photo: `"whole"` (wide photo shown
+   in full over a blurred copy, so people at the edges aren't cropped) or an object-position like `"28% 50%"`.
+2. He bought `iamibrahimbello.xyz` at IONOS (contract 114157742) on 2026-10-22; it was still activating (not yet
+   under Domains & SSL). A `CNAME` file was added then removed again, because it made the github.io link redirect
+   to the not-yet-working domain. Re-add `CNAME` only after the IONOS DNS records below are in place.
+   Open question: AAMU's article says Spectrum Sizzle was at NYIT, Long Island, June 2025, but the site says Waco, TX, 2026. → add it under Pages → Custom domain
    (creates `CNAME`), set the registrar DNS (A records to GitHub Pages IPs for the apex, CNAME `www` →
    bello-ibrahim1.github.io), enforce HTTPS.
 3. When the BioHackathon film is on YouTube: set the first project's `cta`/`link` to the video (TODO comment

@@ -51,6 +51,9 @@
   .ed-frame .grp.on { opacity: 1; }
   .ed-frame .grp > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity 1.1s ease, transform 6s linear; }
   .ed-frame .grp > .on, .ed-frame .grp > video { opacity: 1; transform: scale(1.08); }
+  .ed-frame .grp > .whole.on { transform: scale(1.02); }
+  .ed-frame .whole::before { content: ""; position: absolute; inset: -12%; background: var(--src) center / cover; filter: blur(24px) brightness(.7) saturate(1.1); }
+  .ed-frame .whole img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: 50% 14%; }
   .ed-frame .rec { position: absolute; top: 14px; left: 14px; z-index: 3; font: 500 10px/1 var(--mono); color: #fff; background: rgba(0,0,0,.55); padding: 6px 8px; border-radius: 4px; letter-spacing: .06em; }
   .ed-frame .rec::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; margin-right: 6px; animation: blink 1.2s steps(2) infinite; }
   .ed-frame .cap { position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 3; font: 500 11px/1.35 var(--mono); color: #fff; background: rgba(0,0,0,.55); padding: 7px 9px; border-radius: 4px; letter-spacing: .03em; }
@@ -516,8 +519,8 @@ const PROJECTS = [
     slides: [["assets/phishguard-cert.jpg", "3rd place · AAMU STEM Day 2026"]], cta: "View on GitHub", link: "https://github.com/Bello-Ibrahim1/PhishGuard" },
   { title: "Spectrum", accent: "Sizzle", tags: ["NSF", "Wireless & RF", "Waco, TX"],
     desc: "An all-expenses-paid NSF workshop in Waco, Texas on wireless, microwave and communications engineering: spectrum policy, radar and RF circuit design.",
-    slides: [["assets/spectrum-cert.jpg", "Certificate of completion"], ["assets/spectrum-lab.jpg", "In the lab"], ["assets/spectrum-field.jpg", "Hunting signals outside"], ["assets/spectrum-group.jpg", "The Spectrum Sizzle cohort"]],
-    cta: "See more work", link: "#work" },
+    slides: [["assets/spectrum-cert.jpg", "Certificate of completion"], ["assets/spectrum-nyit.jpg", "Certificate in hand at NYIT", "28% 50%"], ["assets/spectrum-lab.jpg", "In the lab", "whole"], ["assets/spectrum-field.jpg", "Briefing for the RF Fox Hunt", "whole"], ["assets/spectrum-group.jpg", "The Spectrum Sizzle cohort", "whole"]],
+    cta: "Read more", link: "https://www.aamu.edu/about/inside-aamu/news/computer-science-engineering-students-gain-hands-on-experience-in-spectrum-technology.html" },
   { title: "UL", accent: "Solutions", tags: ["Wireless Lab Testing Intern", "California"],
     desc: "Wireless Lab Testing Intern at UL Solutions in California, testing wireless devices in the lab alongside a cohort of interns.",
     slides: [["assets/ul-sign.jpg", "UL Solutions · California"], ["assets/ul-solutions.jpg", "The intern cohort"], ["assets/ul-group2.jpg", "Lab crew"]], cta: "See more work", link: "#work" },
@@ -578,7 +581,12 @@ const edFrame = $("#edframe"), edLight = $("#edlight"), edOuter = document.query
 SLIDES.forEach((p, i) => {
   const g = document.createElement("div"); g.className = "grp";
   if (p.video) { const v = document.createElement("video"); Object.assign(v, { src: p.video, muted: true, loop: true, playsInline: true }); v.setAttribute("muted", ""); g.appendChild(v); }
-  else p.slides.forEach(([src]) => { const im = new Image(); im.src = src; im.alt = ""; g.appendChild(im); });
+  else p.slides.forEach(([src, , fit]) => {
+    const im = new Image(); im.src = src; im.alt = "";
+    // "whole": a wide photo shown in full over a blurred copy of itself, so nobody at the edges gets cropped out
+    if (fit === "whole") { const w = document.createElement("div"); w.className = "whole"; w.style.setProperty("--src", `url("${src}")`); w.appendChild(im); g.appendChild(w); }
+    else { if (fit) im.style.objectPosition = fit; g.appendChild(im); }
+  });
   edFrame.insertBefore(g, $("#rec")); p._g = g;
   const d = document.createElement("i"); d.onclick = () => { show(i); auto(); }; dots.appendChild(d);
 });
