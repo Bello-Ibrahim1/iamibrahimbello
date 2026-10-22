@@ -342,6 +342,7 @@
           opacity: 0; transform: translate(-50%, -50%) scale(.8) rotate(-4deg); transition: opacity .25s, transform .3s; }
   .peek.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-4deg); }
   .peek img { width: 100%; height: 100%; object-fit: cover; }
+  @media (hover: none) { .peek { display: none; } }   /* phones and tablets: no hover, so no floating preview */
 
   .contact { text-align: center; }
   .contact .big { font-size: clamp(44px, 8vw, 120px); }
@@ -746,14 +747,17 @@ if (!reduce) addEventListener("pointermove", e => {
 });
 floats.forEach(f => f.addEventListener("click", () => { const img = f.querySelector("img"); $("#peek img").src = img.src; }));
 
-/* work list: a preview card follows the cursor; clicking jumps the hero to that project */
-const peek = $("#peek");
+/* work list: a preview card follows the cursor; clicking jumps the hero to that project.
+   Mouse only: a finger tap fires "enter" but no reliable "leave", which left the card stuck on touch screens. */
+const peek = $("#peek"), hidePeek = () => peek.classList.remove("on");
 document.querySelectorAll(".wrow").forEach(r => {
-  r.addEventListener("pointerenter", () => { if (!r.dataset.img) return; peek.querySelector("img").src = r.dataset.img; peek.classList.add("on"); });
-  r.addEventListener("pointerleave", () => peek.classList.remove("on"));
-  r.addEventListener("pointermove", e => { peek.style.left = e.clientX + 130 + "px"; peek.style.top = e.clientY + "px"; });
-  r.addEventListener("click", () => { show(+r.dataset.go + 1); auto(); });
+  r.addEventListener("pointerenter", e => { if (e.pointerType !== "mouse" || !r.dataset.img) return; peek.querySelector("img").src = r.dataset.img; peek.classList.add("on"); });
+  r.addEventListener("pointerleave", hidePeek);
+  r.addEventListener("pointermove", e => { if (e.pointerType !== "mouse") return; peek.style.left = e.clientX + 130 + "px"; peek.style.top = e.clientY + "px"; });
+  r.addEventListener("click", () => { hidePeek(); show(+r.dataset.go + 1); auto(); });
 });
+addEventListener("scroll", hidePeek, { passive: true });
+addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") hidePeek(); }, { passive: true });
 
 /* moments gallery: crossfade every 4.5 s, thumbnails jump */
 const gframe = $("#gframe"), gthumbs = $("#gthumbs"); let g = 0, gTimer;
